@@ -5,7 +5,7 @@ export const coinFlipAnimation = {
   ip: 0,
   op: 60,
   w: 200,
-  h: 200,
+  h: 250,
   nm: 'Coin Flip',
   ddd: 1,
   assets: [],
@@ -120,7 +120,7 @@ export const coinFlipAnimation = {
                 y: 0
               },
               t: 0,
-              s: [100, 100, 0],
+              s: [100, 125, 0],
               to: [0, -25, 0],
               ti: [0, 0, 0]
             },
@@ -134,13 +134,13 @@ export const coinFlipAnimation = {
                 y: 0
               },
               t: 30,
-              s: [100, 50, 0],
+              s: [100, 75, 0],
               to: [0, 0, 0],
               ti: [0, -25, 0]
             },
             {
               t: 60,
-              s: [100, 100, 0]
+              s: [100, 125, 0]
             }]
 
         },

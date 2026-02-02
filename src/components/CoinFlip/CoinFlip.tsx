@@ -13,7 +13,7 @@ interface CoinFlipProps {
   result: 'win' | 'loss' | null;
 }
 
-export const CoinFlip = ({ isFlipping, result }: CoinFlipProps) => {
+export const CoinFlip = ({ isFlipping, result, }: CoinFlipProps) => {
   const { selectedCurrency } = useBetStore();
   const lottieRef = useRef<LottieRefCurrentProps>(null);
 
@@ -33,8 +33,11 @@ export const CoinFlip = ({ isFlipping, result }: CoinFlipProps) => {
       <GlowEffect isFlipping={isFlipping} result={result} />
 
       {/* Coin Container */}
-      <div className="relative w-44 h-52 md:w-60 md:h-80">
-        <CoinAnimation isFlipping={isFlipping} lottieRef={lottieRef} />
+      <div className="relative w-44 h-52 md:w-60 md:h-80 overflow-visible pt-12 pb-4">
+        <CoinAnimation
+          isFlipping={isFlipping}
+          lottieRef={lottieRef}
+        />
         <StaticCoin isFlipping={isFlipping} result={result} currency={selectedCurrency} />
       </div>
 

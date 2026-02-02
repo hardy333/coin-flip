@@ -8,6 +8,8 @@ interface CoinAnimationProps {
 }
 
 export function CoinAnimation({ isFlipping, lottieRef }: CoinAnimationProps) {
+
+
   return (
     <AnimatePresence>
       {isFlipping && (
@@ -24,7 +26,7 @@ export function CoinAnimation({ isFlipping, lottieRef }: CoinAnimationProps) {
             opacity: 0,
             scale: 0.8
           }}
-          className="absolute inset-0"
+          className="absolute inset-0 overflow-visible -top-12 -bottom-4"
         >
           <Lottie
             lottieRef={lottieRef}

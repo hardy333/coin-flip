@@ -11,7 +11,7 @@ interface BetHistoryListProps {
 
 const renderContent = (bets: Bet[], isLoading: boolean, error: Error | null) => {
   if (isLoading) {
-    return <BetHistorySkeleton count={8} />;
+    return <BetHistorySkeleton count={4} />;
   }
 
   if (error) {
@@ -40,7 +40,7 @@ const renderContent = (bets: Bet[], isLoading: boolean, error: Error | null) => 
 
 export const BetHistoryList = ({ bets, isLoading, error }: BetHistoryListProps) => {
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden space-y-2 pr-2 custom-scrollbar">
+    <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden space-y-2 pr-2 custom-scrollbar min-h-[100px]">
       {renderContent(bets, isLoading, error)}
     </div>
   );

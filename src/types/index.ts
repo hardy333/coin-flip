@@ -19,21 +19,12 @@ export interface Bet {
   balanceAfter: number;
 }
 
-export interface UserBalances {
-  [Currency.BTC]: number;
-  [Currency.ETH]: number;
-  [Currency.SOL]: number;
+export interface BalanceItem {
+  currency: Currency;
+  balance: number;
 }
 
-export interface AutoBetSettings {
-  enabled: boolean;
-  baseBet: number;
-  martingale: boolean;
-  stopWin: number;
-  stopLoss: number;
-  currentLossStreak: number;
-  sessionProfit: number;
-}
+export type UserBalances = BalanceItem[];
 
 export interface GameStats {
   totalBets: number;

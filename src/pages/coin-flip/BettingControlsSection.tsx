@@ -3,21 +3,18 @@ import { BettingInterface } from '../../components/BettingInterface/BettingInter
 interface BettingControlsSectionProps {
   onBet: () => void;
   isFlipping: boolean;
-  toggleAutoBet: () => void;
 }
 
 export function BettingControlsSection({
   onBet,
-  isFlipping,
-  toggleAutoBet
+  isFlipping
 }: BettingControlsSectionProps) {
   return (
     <div className="lg:col-span-3 order-2 lg:order-1">
       <div className="lg:sticky lg:top-28">
         <BettingInterface
           onBet={onBet}
-          isFlipping={isFlipping}
-          toggleAutoBet={toggleAutoBet} />
+          isFlipping={isFlipping} />
       </div>
     </div>
   );

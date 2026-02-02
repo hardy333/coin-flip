@@ -10,8 +10,9 @@
   --color-gold-secondary: #fbbf24;
   --color-win: #10b981;
   --color-loss: #f43f5e;
-  --bg-black: #050505;
-  --bg-panel: #0a0a0a;
+  --bg-black: #1a1a1a;
+  --bg-panel: #1f1f1f;
+  --bg-primary: #101018;
 }
 
 body {
@@ -89,4 +90,75 @@ body {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+/* Glass light effect animation for bet button */
+@keyframes glass-light-sweep {
+  0% {
+    transform: translateX(-100%) translateY(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(200%) translateY(200%) rotate(45deg);
+  }
+}
+
+.animate-glass-light {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-glass-light::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.3) 50%,
+    transparent 70%
+  );
+  animation: glass-light-sweep 4s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.animate-glass-light:hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 70%
+  );
+  animation: glass-light-sweep 1s ease-in-out;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Circle spinner animation for flipping state */
+@keyframes circle-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.flipping-circle {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-top-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  animation: circle-spin 0.8s linear infinite;
+  flex-shrink: 0;
 }

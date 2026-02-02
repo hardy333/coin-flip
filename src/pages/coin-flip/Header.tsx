@@ -2,7 +2,7 @@ import { Dices, Sparkles } from 'lucide-react';
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 bg-[#050508]/80 backdrop-blur-xl border-b border-white/5">
+    <header className="sticky top-0 z-50 bg-[var(--bg-primary)]/80 backdrop-blur-xl border-b border-white/5">
       <div className="max-w-[1800px] mx-auto px-6 lg:px-8">
         <div className="h-12 flex items-center justify-between">
           <div className="flex items-center gap-3">

@@ -1,8 +1,10 @@
 import { useBetStore } from '../../store/betStore';
-import { formatCurrency } from '../../utils/calculations';
-import { Bitcoin, Coins, CircleDollarSign, } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { useBalances } from '../../hooks/useBalances';
+import { Bitcoin, Coins, CircleDollarSign, AlertCircle } from 'lucide-react';
 import { Currency } from '../../types';
+import { BalanceCard } from './BalanceCard';
+import { BalanceCardSkeleton } from './BalanceCardSkeleton';
+import { getBalanceByCurrency } from '../../utils/balanceHelpers';
 
 const currencies = [
   {
@@ -29,44 +31,40 @@ const currencies = [
   const;
 
 export const BalanceDisplay = () => {
-  const { balances, selectedCurrency, setSelectedCurrency } = useBetStore();
+  const { selectedCurrency, setSelectedCurrency } = useBetStore();
+  const { data: balances = [], isLoading, error } = useBalances();
+
+  if (isLoading) {
+    return <BalanceCardSkeleton />;
+  }
+
+  if (error) {
+    return (
+      <div className="grid grid-cols-3 gap-4">
+        {currencies.map(({ id }) => (
+          <div key={id} className="p-4 rounded-2xl bg-white/[0.02] border-2 border-rose-500/20 text-center">
+            <AlertCircle className="w-6 h-6 mx-auto mb-2 text-rose-500/50" />
+            <p className="text-xs text-rose-400/70">Failed to load balance</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-3 gap-4">
-      {currencies.map(({ id, icon: Icon, color, bgColor, borderColor }) =>
-        <button
+      {currencies.map(({ id, icon, color, bgColor }) => (
+        <BalanceCard
           key={id}
-          onClick={() => setSelectedCurrency(id)}
-          className={`relative group p-4 rounded-2xl border-2 transition-all duration-300 ${selectedCurrency === id ? `${bgColor} border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.2)]` : 'bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10'}`}>
-
-          <div className="flex items-center gap-3">
-            <div className={`p-3 rounded-xl ${bgColor}`}>
-              <Icon className={`w-6 h-6 ${color}`} />
-            </div>
-            <div className="text-left flex-1">
-              <p className="text-xs text-white/40 font-bold uppercase tracking-wider mb-1">
-                {id}
-              </p>
-              <p
-                className={`text-xl font-black font-mono tracking-tight ${selectedCurrency === id ? 'text-white' : 'text-white/70'}`}>
-
-                {formatCurrency(balances[id], id as Currency).split(' ')[0]}
-              </p>
-            </div>
-          </div>
-
-          {selectedCurrency === id &&
-            <motion.div
-              layoutId="balance-indicator"
-              className="absolute -top-1 -right-1 w-4 h-4 bg-amber-500 rounded-full border-2 border-black"
-              transition={{
-                type: 'spring',
-                bounce: 0.3,
-                duration: 0.5
-              }} />
-
-          }
-        </button>
-      )}
-    </div>);
+          id={id}
+          icon={icon}
+          color={color}
+          bgColor={bgColor}
+          balance={getBalanceByCurrency(balances, id)}
+          isSelected={selectedCurrency === id}
+          onSelect={() => setSelectedCurrency(id)}
+        />
+      ))}
+    </div>
+  );
 };

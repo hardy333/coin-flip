@@ -31,6 +31,7 @@ export const Button = ({
     md: 'px-4 py-2 text-base',
     lg: 'px-6 py-3 text-lg'
   };
+
   return (
     <button
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
