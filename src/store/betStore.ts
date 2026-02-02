@@ -1,26 +1,26 @@
 import { create,  } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { UserBalances, CryptoCurrency, AutoBetSettings } from '../types';
+import { UserBalances, AutoBetSettings, Currency } from '../types';
 
 interface BetStore {
   balances: UserBalances;
-  selectedCurrency: CryptoCurrency;
+  selectedCurrency: Currency;
   betAmount: number;
   autoBetSettings: AutoBetSettings;
 
   // Actions
-  setBalance: (currency: CryptoCurrency, amount: number) => void;
-  updateBalance: (currency: CryptoCurrency, change: number) => void;
-  setSelectedCurrency: (currency: CryptoCurrency) => void;
+  setBalance: (currency: Currency, amount: number) => void;
+  updateBalance: (currency: Currency, change: number) => void;
+  setSelectedCurrency: (currency: Currency) => void;
   setBetAmount: (amount: number) => void;
   updateAutoBetSettings: (settings: Partial<AutoBetSettings>) => void;
   resetBalances: () => void;
 }
 
 const INITIAL_BALANCES: UserBalances = {
-  BTC: 1000,
-  ETH: 1000,
-  SOL: 1000
+  [Currency.BTC]: 1000,
+  [Currency.ETH]: 1000,
+  [Currency.SOL]: 1000
 };
 
 const INITIAL_AUTO_BET: AutoBetSettings = {
@@ -33,11 +33,13 @@ const INITIAL_AUTO_BET: AutoBetSettings = {
   sessionProfit: 0
 };
 
+const STORAGE_KEY = 'crypto-bet-storage' as const;
+
 export const useBetStore = create<BetStore>()(
   persist(
     (set) => ({
       balances: INITIAL_BALANCES,
-      selectedCurrency: 'BTC',
+      selectedCurrency: Currency.BTC,
       betAmount: 10,
       autoBetSettings: INITIAL_AUTO_BET,
 
@@ -66,7 +68,7 @@ export const useBetStore = create<BetStore>()(
       resetBalances: () => set({ balances: INITIAL_BALANCES })
     }),
     {
-      name: 'crypto-bet-storage'
+      name: STORAGE_KEY
     }
   )
 );

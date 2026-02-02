@@ -37,10 +37,10 @@ export function CoinFlip() {
 
             <Header />
 
-            <main className="max-w-[1800px] mx-auto px-6 lg:px-8 py-8">
+            <main className="max-w-[1800px] mx-auto px-6 lg:px-8 py-4">
                 <BalancesSection />
 
-                <StatisticsSection />
+                {/* <StatisticsSection /> */}
 
                 {/* Main Game Grid - Desktop First */}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">

@@ -1,27 +1,26 @@
-import React from 'react';
 import { useBetStore } from '../../store/betStore';
 import { formatCurrency } from '../../utils/calculations';
 import { Bitcoin, Coins, CircleDollarSign, } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { CryptoCurrency } from '../../types';
+import { Currency } from '../../types';
 
 const currencies = [
   {
-    id: 'BTC',
+    id: Currency.BTC,
     icon: Bitcoin,
     color: 'text-orange-500',
     bgColor: 'bg-orange-500/10',
     borderColor: 'border-orange-500/30'
   },
   {
-    id: 'ETH',
+    id: Currency.ETH,
     icon: Coins,
     color: 'text-blue-500',
     bgColor: 'bg-blue-500/10',
     borderColor: 'border-blue-500/30'
   },
   {
-    id: 'SOL',
+    id: Currency.SOL,
     icon: CircleDollarSign,
     color: 'text-purple-500',
     bgColor: 'bg-purple-500/10',
@@ -29,7 +28,7 @@ const currencies = [
   }] as
   const;
 
-export const BalanceDisplay: React.FC = () => {
+export const BalanceDisplay = () => {
   const { balances, selectedCurrency, setSelectedCurrency } = useBetStore();
 
   return (
@@ -51,7 +50,7 @@ export const BalanceDisplay: React.FC = () => {
               <p
                 className={`text-xl font-black font-mono tracking-tight ${selectedCurrency === id ? 'text-white' : 'text-white/70'}`}>
 
-                {formatCurrency(balances[id], id as CryptoCurrency).split(' ')[0]}
+                {formatCurrency(balances[id], id as Currency).split(' ')[0]}
               </p>
             </div>
           </div>

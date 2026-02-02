@@ -1,6 +1,5 @@
-import React from 'react';
 import { useBetStore } from '../../store/betStore';
-import { Settings, Zap, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Settings, Zap, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface BettingInterfaceProps {
@@ -9,11 +8,11 @@ interface BettingInterfaceProps {
   toggleAutoBet: () => void;
 }
 
-export const BettingInterface: React.FC<BettingInterfaceProps> = ({
+export const BettingInterface = ({
   onBet,
   isFlipping,
   toggleAutoBet
-}) => {
+}: BettingInterfaceProps) => {
   const {
     betAmount,
     setBetAmount,
@@ -96,7 +95,7 @@ export const BettingInterface: React.FC<BettingInterfaceProps> = ({
       </div>
 
       {/* Potential Win Display */}
-      <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4">
+      {/* <div className="bg-emerald-500/5 border border-emerald-500/20 rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <TrendingUp className="w-4 h-4 text-emerald-500" />
@@ -111,7 +110,7 @@ export const BettingInterface: React.FC<BettingInterfaceProps> = ({
         <div className="mt-1 text-[10px] text-emerald-500/50 text-right">
           2× Multiplier
         </div>
-      </div>
+      </div> */}
 
       {/* Auto Bet Settings */}
       <div className="space-y-4">

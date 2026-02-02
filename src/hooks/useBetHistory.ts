@@ -1,14 +1,14 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { mockApi } from '../services/mockApi';
-import { Bet } from '../types';
+import { Bet, FilterOption } from '../types';
 import { useMemo, useState } from 'react';
 
 export const useBetHistory = () => {
   const queryClient = useQueryClient();
-  const [filter, setFilter] = useState<'all' | 'win' | 'loss'>('all');
+  const [filter, setFilter] = useState<FilterOption>(FilterOption.All);
   const [minAmount, setMinAmount] = useState<number>(0);
 
-  const { data: history = [], isLoading } = useQuery({
+  const { data: history = [], isLoading, error } = useQuery({
     queryKey: ['betHistory'],
     queryFn: mockApi.getHistory
   });
@@ -22,7 +22,7 @@ export const useBetHistory = () => {
 
   const filteredHistory = useMemo(() => {
     return history.filter((bet: Bet) => {
-      const matchesFilter = filter === 'all' || bet.outcome === filter;
+      const matchesFilter = filter === FilterOption.All || bet.outcome === filter;
       const matchesAmount = bet.amount >= minAmount;
       return matchesFilter && matchesAmount;
     });
@@ -32,6 +32,7 @@ export const useBetHistory = () => {
     history: filteredHistory,
     rawHistory: history,
     isLoading,
+    error,
     filter,
     setFilter,
     minAmount,

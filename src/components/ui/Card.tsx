@@ -4,11 +4,11 @@ interface CardProps {
   className?: string;
   title?: string;
 }
-export const Card: React.FC<CardProps> = ({
+export const Card = ({
   children,
   className = '',
   title
-}) => {
+}: CardProps) => {
   return (
     <div
       className={`bg-slate-900/50 backdrop-blur-sm border border-slate-800 rounded-xl p-6 ${className}`}>

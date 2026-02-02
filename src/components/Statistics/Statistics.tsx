@@ -10,7 +10,7 @@ import {
   BarChart3 } from
 'lucide-react';
 import { motion } from 'framer-motion';
-export const Statistics: React.FC = () => {
+export const Statistics = () => {
   const { rawHistory } = useBetHistory();
   const stats = calculateStats(rawHistory);
   const winRate =

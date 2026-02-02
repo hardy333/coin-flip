@@ -1,18 +1,28 @@
-export type CryptoCurrency = 'BTC' | 'ETH' | 'SOL';
+export enum Currency {
+  BTC = 'BTC',
+  ETH = 'ETH',
+  SOL = 'SOL'
+}
+
+export enum FilterOption {
+  All = 'all',
+  Win = 'win',
+  Loss = 'loss'
+}
 
 export interface Bet {
   id: string;
   amount: number;
-  currency: CryptoCurrency;
+  currency: Currency;
   outcome: 'win' | 'loss';
   timestamp: number;
   balanceAfter: number;
 }
 
 export interface UserBalances {
-  BTC: number;
-  ETH: number;
-  SOL: number;
+  [Currency.BTC]: number;
+  [Currency.ETH]: number;
+  [Currency.SOL]: number;
 }
 
 export interface AutoBetSettings {
@@ -29,7 +39,7 @@ export interface GameStats {
   totalBets: number;
   wins: number;
   losses: number;
-  biggestWin: {amount: number;currency: CryptoCurrency;};
-  biggestLoss: {amount: number;currency: CryptoCurrency;};
+  biggestWin: {amount: number;currency: Currency;};
+  biggestLoss: {amount: number;currency: Currency;};
   netProfit: number;
 }

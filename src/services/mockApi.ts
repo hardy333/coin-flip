@@ -1,4 +1,4 @@
-import { Bet, CryptoCurrency } from '../types';
+import { Bet, Currency } from '../types';
 import { generateId } from '../utils/calculations';
 
 // Simulate network delay
@@ -9,7 +9,7 @@ const HISTORY_KEY = 'bet_history_v1';
 export const mockApi = {
   flipCoin: async (
   amount: number,
-  currency: CryptoCurrency)
+  currency: Currency)
   : Promise<{outcome: 'win' | 'loss';bet: Bet;}> => {
     await delay(500); // Simulate server processing
 

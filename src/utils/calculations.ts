@@ -1,6 +1,6 @@
-import { CryptoCurrency, GameStats, Bet } from '../types';
+import { GameStats, Bet, Currency } from '../types';
 
-export const formatCurrency = (amount: number, currency: CryptoCurrency) => {
+export const formatCurrency = (amount: number, currency: Currency) => {
   return `${amount.toFixed(4)} ${currency}`;
 };
 
@@ -9,8 +9,8 @@ export const calculateStats = (history: Bet[]): GameStats => {
     totalBets: history.length,
     wins: 0,
     losses: 0,
-    biggestWin: { amount: 0, currency: 'BTC' },
-    biggestLoss: { amount: 0, currency: 'BTC' },
+    biggestWin: { amount: 0, currency: Currency.BTC },
+    biggestLoss: { amount: 0, currency: Currency.BTC },
     netProfit: 0
   };
 
