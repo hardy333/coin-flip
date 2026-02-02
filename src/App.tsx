@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { CoinFlip } from './pages/coin-flip/CoinFlip';
+import { CoinFlip } from '@/pages/coin-flip';
 
 const queryClient = new QueryClient();
 

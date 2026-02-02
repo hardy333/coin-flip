@@ -1,4 +1,4 @@
-import { BettingInterface } from '../../components/BettingInterface/BettingInterface';
+import { BettingInterface } from '@/components/bettingInterface';
 
 interface BettingControlsSectionProps {
   onBet: () => void;

@@ -1,5 +1,5 @@
-import { Currency } from '../../types';
-import { Input } from '../ui/Input';
+import { Currency } from '@/types';
+import { Input } from '@/components/ui/Input';
 
 interface BetAmountInputProps {
     betAmount: number;

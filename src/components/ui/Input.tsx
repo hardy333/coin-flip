@@ -20,7 +20,7 @@ export const Input = ({
   const variantStyles = {
     default: 'bg-slate-800 border border-slate-700 text-white rounded-lg px-3 py-2 focus:ring-2 focus:ring-indigo-500 focus:border-transparent placeholder-slate-500',
     betting: 'bg-black/40 border-2 border-white/10 rounded-xl py-2 px-3 text-xl text-white font-mono font-black text-center focus:border-amber-500/50',
-    dark: 'bg-white/5 border border-white/10 text-white rounded-lg px-3 py-2 focus:border-white/20 focus:ring-0 placeholder:text-white/30'
+    dark: 'bg-black/40 border border-white/10 text-white rounded-lg px-3 py-2 focus:border-white/20 focus:ring-0 placeholder:text-xs placeholder:text-white/30'
   };
 
   const labelStyles = {

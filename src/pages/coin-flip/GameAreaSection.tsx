@@ -1,4 +1,4 @@
-import { CoinFlip } from "../../components/CoinFlip/CoinFlip";
+import { CoinFlip } from '@/components/coinFlip';
 
 interface GameAreaSectionProps {
     isFlipping: boolean;

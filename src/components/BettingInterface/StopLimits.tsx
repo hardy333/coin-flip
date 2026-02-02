@@ -1,0 +1,65 @@
+import { useBetStore } from '@/store/betStore';
+import { useBalances } from '@/hooks';
+import { getBalanceByCurrency } from '@/utils';
+import { Input } from '@/components/ui/Input';
+import { X } from 'lucide-react';
+
+export const StopLimits = () => {
+    const {
+        stopWin,
+        stopLoss,
+        setStopWin,
+        setStopLoss,
+        resetLimits,
+        selectedCurrency,
+        startingBalance
+    } = useBetStore();
+
+    const { data: balances = [] } = useBalances();
+    const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
+
+    const hasLimits = stopWin !== null || stopLoss !== null;
+
+    return (
+        <div className="space-y-4">
+            <div className="flex items-center justify-between">
+                <h3 className="text-sm font-bold text-white uppercase tracking-wider">Stop Limits</h3>
+                {hasLimits && (
+                    <button
+                        onClick={resetLimits}
+                        className="text-xs text-white/50 hover:text-white/80 transition-colors flex items-center gap-1"
+                    >
+                        <X className="w-3 h-3" />
+                        Clear All
+                    </button>
+                )}
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+                <Input
+                    type="number"
+                    variant="dark"
+                    value={stopWin !== null ? stopWin.toString() : ''}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        setStopWin(value ? Number(value) : null, startingBalance === null ? currentBalance : undefined);
+                    }}
+                    placeholder="Stop Win"
+                    className="w-full"
+                />
+
+                <Input
+                    type="number"
+                    variant="dark"
+                    value={stopLoss !== null ? stopLoss.toString() : ''}
+                    onChange={(e) => {
+                        const value = e.target.value;
+                        setStopLoss(value ? Number(value) : null, startingBalance === null ? currentBalance : undefined);
+                    }}
+                    placeholder="Stop Loss"
+                    className="w-full"
+                />
+            </div>
+        </div>
+    );
+};

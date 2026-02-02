@@ -1,4 +1,4 @@
-import { BalanceDisplay } from '../../components/BalanceDisplay/BalanceDisplay';
+import { BalanceDisplay } from '@/components/balanceDisplay';
 
 export function BalancesSection() {
     return (

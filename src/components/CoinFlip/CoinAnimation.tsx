@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
-import { coinFlipAnimation } from './coinFlipAnimation';
+import { coinFlipAnimation } from '@/components/coinFlip';
 
 interface CoinAnimationProps {
   isFlipping: boolean;

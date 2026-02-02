@@ -1,5 +1,5 @@
 import { Bitcoin, Coins, CircleDollarSign } from 'lucide-react';
-import { Currency } from '../../types';
+import { Currency } from '@/types';
 
 const currencies = [
   {

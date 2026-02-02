@@ -1,10 +1,9 @@
-import { useBetStore } from '../../store/betStore';
-import { useBalances } from '../../hooks/useBalances';
+import { useBetStore } from '@/store/betStore';
+import { useBalances } from '@/hooks';
 import { Bitcoin, Coins, CircleDollarSign, AlertCircle } from 'lucide-react';
-import { Currency } from '../../types';
-import { BalanceCard } from './BalanceCard';
-import { BalanceCardSkeleton } from './BalanceCardSkeleton';
-import { getBalanceByCurrency } from '../../utils/balanceHelpers';
+import { Currency } from '@/types';
+import { BalanceCard, BalanceCardSkeleton } from '@/components/balanceDisplay';
+import { getBalanceByCurrency } from '@/utils';
 
 const currencies = [
   {

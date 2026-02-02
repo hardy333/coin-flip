@@ -1,21 +1,25 @@
-import { FLIP_COIN_BUTTON_TEXT } from '../../config/bet-settings-config';
+import { FLIP_COIN_BUTTON_TEXT } from '@/config/bet-settings-config';
 
 interface ActionButtonsProps {
     isFlipping: boolean;
     betAmount: number;
     balance: number;
     onBet: () => void;
+    isLimitReached: boolean;
+    limitMessage: string | null;
 }
 
 export const ActionButtons = ({
     isFlipping,
     betAmount,
     balance,
-    onBet
+    onBet,
+    isLimitReached,
+    limitMessage
 }: ActionButtonsProps) => {
-    const isDisabled = isFlipping || betAmount <= 0 || betAmount > balance;
+    const isDisabled = isFlipping || betAmount <= 0 || betAmount > balance || isLimitReached;
     const hasInsufficientBalance = betAmount > balance;
-    const isReadyToBet = !isDisabled && !isFlipping;
+    const isReadyToBet = !isDisabled && !isFlipping && !isLimitReached;
 
     return (
         <div className="space-y-3 pt-2">
@@ -27,15 +31,21 @@ export const ActionButtons = ({
                         }`}
                 >
                     {isFlipping && <div className="flipping-circle" />}
-                    <span className="relative z-10">
+                    <span className="relative z-20">
                         {isFlipping ? FLIP_COIN_BUTTON_TEXT.FLIPPING : FLIP_COIN_BUTTON_TEXT.IDLE}
                     </span>
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] z-0" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] z-[5]" />
                 </button>
                 {hasInsufficientBalance && (
                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-200 pointer-events-none z-50 shadow-lg border border-white/10">
                         Balance is not enough
                         <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-gray-900"></div>
+                    </div>
+                )}
+                {isLimitReached && limitMessage && (
+                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-amber-900/90 text-white text-sm rounded-lg whitespace-nowrap z-50 shadow-lg border border-amber-500/50">
+                        {limitMessage}
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-1 border-4 border-transparent border-t-amber-900/90"></div>
                     </div>
                 )}
             </div>

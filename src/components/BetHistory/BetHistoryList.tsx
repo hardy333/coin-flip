@@ -1,6 +1,5 @@
-import { Bet } from '../../types';
-import { BetHistoryCard } from './BetHistoryCard';
-import { BetHistorySkeleton } from './BetHistorySkeleton';
+import { Bet } from '@/types';
+import { BetHistoryCard, BetHistorySkeleton } from './';
 import { History, AlertCircle } from 'lucide-react';
 
 interface BetHistoryListProps {
@@ -40,7 +39,7 @@ const renderContent = (bets: Bet[], isLoading: boolean, error: Error | null) => 
 
 export const BetHistoryList = ({ bets, isLoading, error }: BetHistoryListProps) => {
   return (
-    <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden space-y-2 pr-2 custom-scrollbar min-h-[100px]">
+    <div className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden space-y-2 pr-2 custom-scrollbar min-h-[100px]" style={{ scrollbarColor: 'rgba(255, 255, 255, 0.15) transparent' }}>
       {renderContent(bets, isLoading, error)}
     </div>
   );

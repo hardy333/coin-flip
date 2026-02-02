@@ -1,0 +1,12 @@
+/* Import CSS variables first - must be before Tailwind */
+@import './variables.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Import remaining CSS modules */
+@import './base.css';
+@import './animations.css';
+@import './utilities.css';
+@import './components.css';

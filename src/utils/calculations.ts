@@ -1,4 +1,4 @@
-import { GameStats, Bet, Currency } from '../types';
+import { GameStats, Bet, Currency } from '@/types';
 
 export const formatCurrency = (amount: number, currency: Currency) => {
   return `${amount.toFixed(4)} ${currency}`;

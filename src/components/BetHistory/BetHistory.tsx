@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { useBetHistory } from '../../hooks/useBetHistory';
-import { useDebounce } from '../../hooks/useDebounce';
+import { useBetHistory, useDebounce } from '@/hooks';
 import { History } from 'lucide-react';
-import { BetHistoryList } from './BetHistoryList';
-import { FilterOption } from '../../types';
-import { Input } from '../ui/Input';
+import { BetHistoryList } from './';
+import { FilterOption } from '@/types';
+import { Input } from '@/components/ui/Input';
 
 export const BetHistory = () => {
   const [filter, setFilter] = useState<FilterOption>(FilterOption.All);
@@ -16,7 +15,7 @@ export const BetHistory = () => {
   const { history, isLoading, error } = useBetHistory({ filter, amount: debouncedAmount });
 
   return (
-    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 h-full flex flex-col overflow-hidden">
+    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 h-full  flex flex-col overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-black text-white flex items-center gap-2">
@@ -40,7 +39,7 @@ export const BetHistory = () => {
             <button
               key={filterOption}
               onClick={() => setFilter(filterOption)}
-              className={`px-4 py-2 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === filterOption ? 'bg-white text-black' : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/70'}`}>
+              className={`px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-wider transition-all ${filter === filterOption ? 'bg-white text-black' : 'bg-white/5 text-white/50 hover:bg-white/10 hover:text-white/70'}`}>
               {filterOption}
             </button>
           )}
@@ -48,9 +47,7 @@ export const BetHistory = () => {
 
         {/* Amount Filter */}
         <div className="space-y-2">
-          <label className="text-xs text-white/40 font-bold uppercase tracking-wider">
-            Filter by Bet Amount
-          </label>
+
           <Input
             type="number"
             value={amountInput}
@@ -61,7 +58,7 @@ export const BetHistory = () => {
               const numValue = value ? Number(value) : null;
               setAmountFilter(isNaN(numValue as number) ? null : numValue);
             }}
-            placeholder="Enter amount..."
+            placeholder="Filter by Bet Amount"
             className="w-full"
           />
         </div>

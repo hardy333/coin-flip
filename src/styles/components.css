@@ -1,0 +1,52 @@
+/* Glass light effect component */
+.animate-glass-light {
+  position: relative;
+  overflow: hidden;
+}
+
+.animate-glass-light::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.4) 50%,
+    transparent 70%
+  );
+  animation: glass-light-sweep 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.animate-glass-light:hover::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 70%
+  );
+  animation: glass-light-sweep 1s ease-in-out;
+  pointer-events: none;
+  z-index: 15;
+}
+
+/* Circle spinner component */
+.flipping-circle {
+  width: 24px;
+  height: 24px;
+  border: 3px solid rgba(0, 0, 0, 0.2);
+  border-top-color: rgba(0, 0, 0, 0.8);
+  border-radius: 50%;
+  animation: circle-spin 0.8s linear infinite;
+  flex-shrink: 0;
+}

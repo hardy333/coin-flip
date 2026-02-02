@@ -1,0 +1,9 @@
+export { CoinFlip } from './CoinFlip';
+export { BackgroundEffects } from './BackgroundEffects';
+export { Header } from './Header';
+export { BalancesSection } from './BalancesSection';
+export { BettingControlsSection } from './BettingControlsSection';
+export { GameAreaSection } from './GameAreaSection';
+export { BetHistorySection } from './BetHistorySection';
+export { StatisticsSection } from './StatisticsSection';
+export { Footer } from './Footer';

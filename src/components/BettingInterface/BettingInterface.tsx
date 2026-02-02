@@ -1,12 +1,16 @@
-import { useBetStore } from '../../store/betStore';
-import { useBalances } from '../../hooks/useBalances';
-import { BettingHeader } from './BettingHeader';
-import { BetAmountInput } from './BetAmountInput';
-import { PresetAmountButtons } from './PresetAmountButtons';
-import { MultiplierButtons } from './MultiplierButtons';
-import { ActionButtons } from './ActionButtons';
-import { PRESET_AMOUNTS } from '../../config/bet-settings-config';
-import { getBalanceByCurrency } from '../../utils/balanceHelpers';
+import { useBetStore } from '@/store/betStore';
+import { useBalances } from '@/hooks';
+import {
+  BettingHeader,
+  BetAmountInput,
+  PresetAmountButtons,
+  MultiplierButtons,
+  ActionButtons,
+  MartingaleToggle,
+  StopLimits
+} from '@/components/bettingInterface';
+import { PRESET_AMOUNTS } from '@/config/bet-settings-config';
+import { getBalanceByCurrency } from '@/utils';
 
 interface BettingInterfaceProps {
   onBet: () => void;
@@ -20,11 +24,40 @@ export const BettingInterface = ({
   const {
     betAmount,
     setBetAmount,
-    selectedCurrency
+    selectedCurrency,
+    stopWin,
+    stopLoss,
+    startingBalance
   } = useBetStore();
 
   const { data: balances = [] } = useBalances();
   const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
+
+  // Calculate if limits are reached
+  const getLimitStatus = () => {
+    if (startingBalance === null) return { isReached: false, message: null };
+
+    const profit = currentBalance - startingBalance;
+    const loss = startingBalance - currentBalance;
+
+    if (stopWin !== null && profit >= stopWin) {
+      return {
+        isReached: true,
+        message: `Stop Win reached! Profit: ${profit.toFixed(2)}`
+      };
+    }
+
+    if (stopLoss !== null && loss >= stopLoss) {
+      return {
+        isReached: true,
+        message: `Stop Loss reached! Loss: ${loss.toFixed(2)}`
+      };
+    }
+
+    return { isReached: false, message: null };
+  };
+
+  const limitStatus = getLimitStatus();
 
   const handleHalf = () => setBetAmount(Math.max(1, Math.floor(betAmount / 2)));
   const handleDouble = () =>
@@ -32,7 +65,7 @@ export const BettingInterface = ({
   const handleMax = () => setBetAmount(currentBalance);
 
   return (
-    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-6">
+    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 space-y-4">
       <BettingHeader
         balance={currentBalance}
         currency={selectedCurrency}
@@ -62,7 +95,15 @@ export const BettingInterface = ({
         betAmount={betAmount}
         balance={currentBalance}
         onBet={onBet}
+        isLimitReached={limitStatus.isReached}
+        limitMessage={limitStatus.message}
       />
+
+      <MartingaleToggle />
+
+      <StopLimits />
+
+
     </div>
   );
 };

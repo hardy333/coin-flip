@@ -1,5 +1,5 @@
 import { Zap } from 'lucide-react';
-import { Currency } from '../../types';
+import { Currency } from '@/types';
 
 interface BettingHeaderProps {
     balance: number;

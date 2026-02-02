@@ -1,7 +1,8 @@
 import { motion } from 'framer-motion';
-import { Currency } from '../../types';
-import { formatCurrency } from '../../utils/calculations';
+import { Currency } from '@/types';
+import { formatCurrency } from '@/utils';
 import { LucideIcon } from 'lucide-react';
+import classNames from 'classnames';
 
 interface BalanceCardProps {
   id: Currency;
@@ -25,7 +26,14 @@ export const BalanceCard = ({
   return (
     <button
       onClick={onSelect}
-      className={`relative group p-4 rounded-2xl border-2 transition-all duration-300 ${isSelected ? `${bgColor} border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.2)]` : 'bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10'}`}>
+      className={classNames(
+        'relative group p-4 rounded-2xl border transition-all duration-300',
+        {
+          [bgColor]: isSelected,
+          'border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.2)]': isSelected,
+          'bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10': !isSelected
+        }
+      )}>
       <div className="flex items-center gap-3">
         <div className={`p-3 rounded-xl ${bgColor}`}>
           <Icon className={`w-6 h-6 ${color}`} />

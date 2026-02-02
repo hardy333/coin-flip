@@ -1,4 +1,4 @@
-import { Currency, UserBalances } from '../types';
+import { Currency, UserBalances } from '@/types';
 
 export const DEFAULT_BET_AMOUNT = 250;
 

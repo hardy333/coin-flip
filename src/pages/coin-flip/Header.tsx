@@ -13,9 +13,7 @@ export function Header() {
               <h1 className="text-xl font-black tracking-tight text-white">
                 CRYPTO<span className="text-amber-500">FLIP</span>
               </h1>
-              <p className="text-[10px] text-white/30 font-medium tracking-wider">
-                PROVABLY FAIR GAMING
-              </p>
+
             </div>
           </div>
 

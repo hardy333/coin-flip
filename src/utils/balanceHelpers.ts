@@ -1,4 +1,4 @@
-import { Currency, UserBalances } from '../types';
+import { Currency, UserBalances } from '@/types';
 
 export const getBalanceByCurrency = (balances: UserBalances, currency: Currency): number => {
   const balanceItem = balances.find(item => item.currency === currency);

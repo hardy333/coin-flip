@@ -1,26 +1,37 @@
 import { useState } from 'react';
 import { Toaster, toast } from 'sonner';
-import { BackgroundEffects } from './BackgroundEffects';
-import { Header } from './Header';
-import { BalancesSection } from './BalancesSection';
-import { BettingControlsSection } from './BettingControlsSection';
-import { GameAreaSection } from './GameAreaSection';
-import { BetHistorySection } from './BetHistorySection';
-import { Footer } from './Footer';
-import { useBetSimulation } from '../../hooks/useBetSimulation';
-import { useBetStore } from '../../store/betStore';
-import { useBalances } from '../../hooks/useBalances';
-import { delay } from '../../utils/delay';
+import {
+    BackgroundEffects,
+    Header,
+    BalancesSection,
+    BettingControlsSection,
+    GameAreaSection,
+    BetHistorySection,
+    Footer
+} from './';
+import { useBetSimulation, useBalances } from '@/hooks';
+import { useBetStore } from '@/store/betStore';
+import { delay, getBalanceByCurrency } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
-import { QUERY_KEYS } from '../../constants/queryKeys';
-import { getBalanceByCurrency } from '../../utils/balanceHelpers';
+import { QUERY_KEYS } from '@/constants/queryKeys';
+import { UserBalances } from '@/types';
 
 const COIN_ANIMATION_DURATION = 1000;
 
 export function CoinFlip() {
     const [lastResult, setLastResult] = useState<'win' | 'loss' | null>(null);
     const [coinIsInAnimationMode, setCoinIsInAnimationMode] = useState(false);
-    const { selectedCurrency, betAmount } = useBetStore();
+    const {
+        selectedCurrency,
+        betAmount,
+        isMartingaleEnabled,
+        doubleBetForMartingale,
+        resetMartingale,
+        stopWin,
+        stopLoss,
+        startingBalance
+    } = useBetStore();
+
     const { data: balances = [] } = useBalances();
     const queryClient = useQueryClient();
     const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
@@ -43,6 +54,37 @@ export function CoinFlip() {
         }
     };
 
+    const handleMartingaleStrategy = (outcome: 'win' | 'loss', currentBalance: number) => {
+        if (!isMartingaleEnabled) return;
+
+        if (outcome === 'loss') {
+            // Double bet after loss
+            doubleBetForMartingale(currentBalance);
+        } else if (outcome === 'win') {
+            // Reset to base bet amount after win
+            resetMartingale();
+        }
+    };
+
+    const checkStopLimits = (currentBalance: number) => {
+        if (startingBalance === null) return;
+
+        const profit = currentBalance - startingBalance;
+        const loss = startingBalance - currentBalance;
+
+        if (stopWin !== null && profit >= stopWin) {
+            toast.success(`Stop Win limit reached! Profit: ${profit.toFixed(2)}`, {
+                className: 'bg-amber-600 text-white border-amber-500 backdrop-blur-md',
+                duration: 5000
+            });
+        } else if (stopLoss !== null && loss >= stopLoss) {
+            toast.error(`Stop Loss limit reached! Loss: ${loss.toFixed(2)}`, {
+                className: 'bg-red-600 text-white border-red-500 backdrop-blur-md',
+                duration: 5000
+            });
+        }
+    };
+
     const placeBet = async () => {
         if (betAmount > currentBalance) {
             alert('Insufficient balance!');
@@ -58,15 +100,33 @@ export function CoinFlip() {
             ]);
 
             const mutationResult = result[0];
-            if (mutationResult?.outcome) {
-                setLastResult(mutationResult.outcome);
-                showToast(mutationResult.outcome);
-            }
+
+            if (!mutationResult?.outcome) return
+
+            setLastResult(mutationResult.outcome);
+            showToast(mutationResult.outcome);
+
+            await delay(10);
+
+            // Refetch balances immediately to show updated balance (refetchQueries also invalidates)
+            await queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BALANCES });
+
+            // Get updated balance - data is available immediately after refetch completes
+            const updatedBalances = queryClient.getQueryData<UserBalances>(QUERY_KEYS.BALANCES) || balances;
+            const updatedBalance = getBalanceByCurrency(updatedBalances, selectedCurrency);
+
+            // Check stop limits
+            checkStopLimits(updatedBalance);
+
+            // Handle Martingale strategy (use updated balance)
+            handleMartingaleStrategy(mutationResult.outcome, updatedBalance);
         } catch (error) {
             console.error('Bet failed:', error);
         } finally {
             setCoinIsInAnimationMode(false);
-            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BET_HISTORY });
+            // Invalidate and refetch bet history to show the new bet
+            await queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BET_HISTORY });
+            await queryClient.refetchQueries({ queryKey: QUERY_KEYS.BET_HISTORY });
             queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BALANCES });
         }
     }

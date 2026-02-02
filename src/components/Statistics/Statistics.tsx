@@ -1,5 +1,6 @@
-import { useBetHistory } from '../../hooks/useBetHistory';
-import { calculateStats } from '../../utils/calculations';
+import { useBetHistory } from '@/hooks';
+import { calculateStats } from '@/utils';
+import { FilterOption } from '@/types';
 import {
   Trophy,
   TrendingUp,
@@ -13,9 +14,9 @@ import {
 import { motion } from 'framer-motion';
 
 export const Statistics = () => {
-  const { rawHistory } = useBetHistory();
+  const { history } = useBetHistory({ filter: FilterOption.All });
 
-  const stats = calculateStats(rawHistory);
+  const stats = calculateStats(history);
   const winRate =
     stats.totalBets > 0 ?
       (stats.wins / stats.totalBets * 100).toFixed(1) :

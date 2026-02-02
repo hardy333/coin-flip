@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import { ArrowUpRight, ArrowDownRight, Clock } from 'lucide-react';
-import { Bet } from '../../types';
-import { formatCurrency } from '../../utils/calculations';
+import { Bet } from '@/types';
+import { formatCurrency } from '@/utils';
 
 interface BetHistoryCardProps {
     bet: Bet;

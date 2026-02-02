@@ -1,12 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { LottieRefCurrentProps } from 'lottie-react';
-import { useBetStore } from '../../store/betStore';
-import { GlowEffect } from './GlowEffect';
-import { CoinAnimation } from './CoinAnimation';
-import { StaticCoin } from './StaticCoin';
-import { CoinShadow } from './CoinShadow';
-import { ResultBadge } from './ResultBadge';
-import { WinParticles } from './WinParticles';
+import { useBetStore } from '@/store/betStore';
+import {
+  GlowEffect,
+  CoinAnimation,
+  StaticCoin,
+  CoinShadow,
+  ResultBadge,
+  WinParticles
+} from '@/components/coinFlip';
 
 interface CoinFlipProps {
   isFlipping: boolean;
