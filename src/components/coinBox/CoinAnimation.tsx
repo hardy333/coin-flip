@@ -1,6 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import Lottie, { LottieRefCurrentProps } from 'lottie-react';
-import { coinFlipAnimation } from '@/components/coinFlip';
+import { coinFlipAnimation } from '@/components/coinBox';
 
 interface CoinAnimationProps {
   isFlipping: boolean;
@@ -26,7 +26,7 @@ export function CoinAnimation({ isFlipping, lottieRef }: CoinAnimationProps) {
             opacity: 0,
             scale: 0.8
           }}
-          className="absolute inset-0 overflow-visible -top-12 -bottom-4"
+          className="absolute inset-0 overflow-visible -top-16 -bottom-4"
         >
           <Lottie
             lottieRef={lottieRef}

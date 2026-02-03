@@ -5,17 +5,19 @@ import { BetHistoryList } from './';
 import { FilterOption } from '@/types';
 import { Input } from '@/components/ui/Input';
 
+const DEBOUNCE_DELAY = 500 as const;
+
 export const BetHistory = () => {
   const [filter, setFilter] = useState<FilterOption>(FilterOption.All);
   const [amountFilter, setAmountFilter] = useState<number | null>(null);
   const [amountInput, setAmountInput] = useState<string>('');
 
-  const debouncedAmount = useDebounce(amountFilter, 500);
+  const debouncedAmount = useDebounce(amountFilter, DEBOUNCE_DELAY);
 
   const { history, isLoading, error } = useBetHistory({ filter, amount: debouncedAmount });
 
   return (
-    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-6 h-full  flex flex-col overflow-hidden">
+    <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 h-full  flex flex-col overflow-hidden">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-black text-white flex items-center gap-2">

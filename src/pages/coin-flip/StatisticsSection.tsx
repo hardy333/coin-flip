@@ -1,8 +1,8 @@
-import { Statistics } from '@/components/Statistics';
+import { Statistics } from '@/components/statistics';
 
 export function StatisticsSection() {
   return (
-    <section className="mb-8">
+    <section className="mb-4">
       <Statistics />
     </section>
   );

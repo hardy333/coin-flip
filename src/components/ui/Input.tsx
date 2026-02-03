@@ -3,14 +3,14 @@ import React from 'react';
 interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
-  rightContent?: React.ReactNode;
+  endAdornment?: React.ReactNode;
   variant?: 'default' | 'betting' | 'dark';
 }
 
 export const Input = ({
   label,
   error,
-  rightContent,
+  endAdornment,
   variant = 'default',
   className = '',
   ...props
@@ -41,9 +41,9 @@ export const Input = ({
           className={`${baseStyles} ${variantStyles[variant]} ${className}`}
           {...props}
         />
-        {rightContent && (
+        {endAdornment && (
           <div className="absolute right-3 top-1/2 -translate-y-1/2 text-white/30 font-bold">
-            {rightContent}
+            {endAdornment}
           </div>
         )}
       </div>

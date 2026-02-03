@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { mockApi } from '@/services/mockApi';
+import { apiService } from '@/services/api/ApiService';
 import { FilterOption } from '@/types';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
@@ -14,7 +14,7 @@ export const useBetHistory = ({
 }: UseBetHistoryParams = {}) => {
   const { data: history = [], isLoading, error } = useQuery({
     queryKey: [...QUERY_KEYS.BET_HISTORY, filter, amount],
-    queryFn: () => mockApi.getHistory(filter, amount ?? undefined),
+    queryFn: () => apiService.getHistory(filter, amount ?? undefined),
     staleTime: 0,
     refetchOnWindowFocus: true
   });

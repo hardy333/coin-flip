@@ -1,22 +1,23 @@
 import { useEffect, useRef } from 'react';
 import { LottieRefCurrentProps } from 'lottie-react';
-import { useBetStore } from '@/store/betStore';
+import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import {
   GlowEffect,
   CoinAnimation,
   StaticCoin,
   CoinShadow,
   ResultBadge,
-  WinParticles
-} from '@/components/coinFlip';
+  WinParticles,
+  CoinStatusText
+} from '@/components/coinBox';
 
 interface CoinFlipProps {
   isFlipping: boolean;
   result: 'win' | 'loss' | null;
 }
 
-export const CoinFlip = ({ isFlipping, result, }: CoinFlipProps) => {
-  const { selectedCurrency } = useBetStore();
+export const CoinBox = ({ isFlipping, result, }: CoinFlipProps) => {
+  const { selectedCurrency } = useCoinFlipperStore();
   const lottieRef = useRef<LottieRefCurrentProps>(null);
 
   useEffect(() => {
@@ -35,7 +36,7 @@ export const CoinFlip = ({ isFlipping, result, }: CoinFlipProps) => {
       <GlowEffect isFlipping={isFlipping} result={result} />
 
       {/* Coin Container */}
-      <div className="relative w-44 h-52 md:w-60 md:h-80 overflow-visible pt-12 pb-4">
+      <div className="relative w-44 h-52 md:w-60 md:h-80 overflow-visible pt-16 pb-4">
         <CoinAnimation
           isFlipping={isFlipping}
           lottieRef={lottieRef}
@@ -44,8 +45,9 @@ export const CoinFlip = ({ isFlipping, result, }: CoinFlipProps) => {
       </div>
 
       <CoinShadow isFlipping={isFlipping} />
-      <ResultBadge result={result} isFlipping={isFlipping} />
       <WinParticles result={result} isFlipping={isFlipping} />
+      <ResultBadge result={result} isFlipping={isFlipping} />
+      <CoinStatusText isFlipping={isFlipping} result={result} />
     </div>
   );
 };

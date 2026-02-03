@@ -1,4 +1,5 @@
 import './styles/index.css';
+import 'react-tooltip/dist/react-tooltip.css';
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
 

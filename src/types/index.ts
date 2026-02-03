@@ -30,7 +30,17 @@ export interface GameStats {
   totalBets: number;
   wins: number;
   losses: number;
-  biggestWin: {amount: number;currency: Currency;};
-  biggestLoss: {amount: number;currency: Currency;};
+  biggestWin: { amount: number; currency: Currency; };
+  biggestLoss: { amount: number; currency: Currency; };
   netProfit: number;
+}
+
+export interface Statistics {
+  winLossRatio: number;
+  biggestWin: { amount: number; currency: Currency };
+  biggestLoss: { amount: number; currency: Currency };
+  totalBets: number;
+  Wins: number;
+  Losses: number;
+  currentProfit: number;
 }

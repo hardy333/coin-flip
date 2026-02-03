@@ -1,4 +1,4 @@
-import { useBetStore } from '@/store/betStore';
+import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import { useBalances } from '@/hooks';
 import {
   BettingHeader,
@@ -9,7 +9,7 @@ import {
   MartingaleToggle,
   StopLimits
 } from '@/components/bettingInterface';
-import { PRESET_AMOUNTS } from '@/config/bet-settings-config';
+import { PRESET_AMOUNTS } from '@/config/flipCoinConfig';
 import { getBalanceByCurrency } from '@/utils';
 
 interface BettingInterfaceProps {
@@ -28,12 +28,11 @@ export const BettingInterface = ({
     stopWin,
     stopLoss,
     startingBalance
-  } = useBetStore();
+  } = useCoinFlipperStore();
 
   const { data: balances = [] } = useBalances();
   const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
 
-  // Calculate if limits are reached
   const getLimitStatus = () => {
     if (startingBalance === null) return { isReached: false, message: null };
 
@@ -82,12 +81,18 @@ export const BettingInterface = ({
         betAmount={betAmount}
         maxBalance={currentBalance}
         onAmountSelect={setBetAmount}
+        isFlipping={isFlipping}
+        isLimitReached={limitStatus.isReached}
       />
 
       <MultiplierButtons
         onHalf={handleHalf}
         onDouble={handleDouble}
         onMax={handleMax}
+        betAmount={betAmount}
+        balance={currentBalance}
+        isFlipping={isFlipping}
+        isLimitReached={limitStatus.isReached}
       />
 
       <ActionButtons

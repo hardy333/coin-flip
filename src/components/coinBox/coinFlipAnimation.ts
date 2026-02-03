@@ -1,4 +1,3 @@
-// Coin flip animation data (gold coin)
 export const coinFlipAnimation = {
   v: '5.7.4',
   fr: 60,
@@ -134,9 +133,9 @@ export const coinFlipAnimation = {
                 y: 0
               },
               t: 30,
-              s: [100, 75, 0],
+              s: [100, 100, 0],
               to: [0, 0, 0],
-              ti: [0, -25, 0]
+              ti: [0, -15, 0]
             },
             {
               t: 60,

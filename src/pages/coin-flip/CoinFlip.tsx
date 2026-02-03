@@ -7,16 +7,19 @@ import {
     BettingControlsSection,
     GameAreaSection,
     BetHistorySection,
+    StatisticsSection,
     Footer
 } from './';
 import { useBetSimulation, useBalances } from '@/hooks';
-import { useBetStore } from '@/store/betStore';
+import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import { delay, getBalanceByCurrency } from '@/utils';
 import { useQueryClient } from '@tanstack/react-query';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { UserBalances } from '@/types';
+import { COIN_ANIMATION_DURATION_IN_MS } from '@/config/flipCoinConfig';
 
-const COIN_ANIMATION_DURATION = 1000;
+const TOAST_DURATION_SHORT = 3000;
+const TOAST_DURATION_LONG = 5000;
 
 export function CoinFlip() {
     const [lastResult, setLastResult] = useState<'win' | 'loss' | null>(null);
@@ -30,7 +33,7 @@ export function CoinFlip() {
         stopWin,
         stopLoss,
         startingBalance
-    } = useBetStore();
+    } = useCoinFlipperStore();
 
     const { data: balances = [] } = useBalances();
     const queryClient = useQueryClient();
@@ -43,13 +46,11 @@ export function CoinFlip() {
             toast.success('You won! Balance doubled.', {
                 className:
                     'bg-green-600 text-white border-green-500 backdrop-blur-md',
-                duration: 3000
+                duration: TOAST_DURATION_SHORT
             });
         } else if (result === 'loss') {
-            toast.error('You lost. Better luck next time!', {
-                className:
-                    'bg-red-600 text-white border-red-500 backdrop-blur-md',
-                duration: 3000
+            toast.warning('You lost. Better luck next time!', {
+                duration: TOAST_DURATION_SHORT
             });
         }
     };
@@ -58,10 +59,8 @@ export function CoinFlip() {
         if (!isMartingaleEnabled) return;
 
         if (outcome === 'loss') {
-            // Double bet after loss
             doubleBetForMartingale(currentBalance);
         } else if (outcome === 'win') {
-            // Reset to base bet amount after win
             resetMartingale();
         }
     };
@@ -75,12 +74,11 @@ export function CoinFlip() {
         if (stopWin !== null && profit >= stopWin) {
             toast.success(`Stop Win limit reached! Profit: ${profit.toFixed(2)}`, {
                 className: 'bg-amber-600 text-white border-amber-500 backdrop-blur-md',
-                duration: 5000
+                duration: TOAST_DURATION_LONG
             });
         } else if (stopLoss !== null && loss >= stopLoss) {
             toast.error(`Stop Loss limit reached! Loss: ${loss.toFixed(2)}`, {
-                className: 'bg-red-600 text-white border-red-500 backdrop-blur-md',
-                duration: 5000
+                duration: TOAST_DURATION_LONG,
             });
         }
     };
@@ -96,38 +94,35 @@ export function CoinFlip() {
         try {
             const result = await Promise.all([
                 betMutation.mutateAsync({ betAmount, selectedCurrency }),
-                delay(COIN_ANIMATION_DURATION)
+                delay(COIN_ANIMATION_DURATION_IN_MS)
             ]);
 
             const mutationResult = result[0];
 
             if (!mutationResult?.outcome) return
 
-            setLastResult(mutationResult.outcome);
-            showToast(mutationResult.outcome);
 
-            await delay(10);
 
-            // Refetch balances immediately to show updated balance (refetchQueries also invalidates)
             await queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BALANCES });
 
-            // Get updated balance - data is available immediately after refetch completes
             const updatedBalances = queryClient.getQueryData<UserBalances>(QUERY_KEYS.BALANCES) || balances;
             const updatedBalance = getBalanceByCurrency(updatedBalances, selectedCurrency);
 
-            // Check stop limits
             checkStopLimits(updatedBalance);
 
-            // Handle Martingale strategy (use updated balance)
             handleMartingaleStrategy(mutationResult.outcome, updatedBalance);
+
+            showToast(mutationResult.outcome);
+
+            setLastResult(mutationResult.outcome);
+
         } catch (error) {
             console.error('Bet failed:', error);
         } finally {
             setCoinIsInAnimationMode(false);
-            // Invalidate and refetch bet history to show the new bet
-            await queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BET_HISTORY });
-            await queryClient.refetchQueries({ queryKey: QUERY_KEYS.BET_HISTORY });
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BET_HISTORY });
             queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BALANCES });
+            queryClient.invalidateQueries({ queryKey: QUERY_KEYS.STATISTICS });
         }
     }
 
@@ -137,15 +132,25 @@ export function CoinFlip() {
         <div className="min-h-screen bg-[var(--bg-primary)] text-white font-sans selection:bg-amber-500/30">
             <BackgroundEffects />
 
-            <Toaster position="top-right" theme="dark" />
+            <Toaster
+                position="top-right"
+                richColors
+                theme='light'
+                toastOptions={{
+                    classNames: {
+                        error: '!border-transparent [&>div>div]:!text-white'
+                    }
+                }}
+            />
 
             <Header />
 
             <main className="max-w-[1800px] mx-auto px-6 lg:px-8 py-4">
                 <BalancesSection />
+                <StatisticsSection />
 
                 {/* Main Game Grid - Desktop First */}
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <BettingControlsSection
                         onBet={placeBet}
                         isFlipping={showAnimationFinal}

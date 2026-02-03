@@ -8,9 +8,11 @@ interface BetHistoryListProps {
   error: Error | null;
 }
 
+const SKELETON_ITEMS_COUNT = 5
+
 const renderContent = (bets: Bet[], isLoading: boolean, error: Error | null) => {
   if (isLoading) {
-    return <BetHistorySkeleton count={4} />;
+    return <BetHistorySkeleton count={SKELETON_ITEMS_COUNT} />;
   }
 
   if (error) {
@@ -27,12 +29,12 @@ const renderContent = (bets: Bet[], isLoading: boolean, error: Error | null) => 
     return (
       <div className="text-center text-white/40 py-12 text-sm">
         <History className="w-8 h-8 mx-auto mb-2 opacity-30" />
-        No bets yet
+        No bets found
       </div>
     );
   }
 
-  return bets.slice(0, 20).map((bet, index) => (
+  return bets.map((bet, index) => (
     <BetHistoryCard key={bet.id} bet={bet} index={index} />
   ));
 };

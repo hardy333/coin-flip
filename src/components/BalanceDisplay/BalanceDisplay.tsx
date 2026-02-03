@@ -1,4 +1,4 @@
-import { useBetStore } from '@/store/betStore';
+import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import { useBalances } from '@/hooks';
 import { Bitcoin, Coins, CircleDollarSign, AlertCircle } from 'lucide-react';
 import { Currency } from '@/types';
@@ -30,7 +30,7 @@ const currencies = [
   const;
 
 export const BalanceDisplay = () => {
-  const { selectedCurrency, setSelectedCurrency } = useBetStore();
+  const { selectedCurrency, setSelectedCurrency } = useCoinFlipperStore();
   const { data: balances = [], isLoading, error } = useBalances();
 
   if (isLoading) {

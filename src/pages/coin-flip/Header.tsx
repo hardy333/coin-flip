@@ -1,4 +1,4 @@
-import { Dices, Sparkles } from 'lucide-react';
+import { Coins, Sparkles } from 'lucide-react';
 
 export function Header() {
   return (
@@ -6,11 +6,11 @@ export function Header() {
       <div className="max-w-[1800px] mx-auto px-6 lg:px-8">
         <div className="h-12 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-gradient-to-br from-amber-500 to-yellow-600 p-2 rounded-xl shadow-[0_0_30px_rgba(245,158,11,0.3)]">
-              <Dices className="w-8 h-4 text-black" />
+            <div className="bg-gradient-to-br from-amber-500 to-yellow-600 p-1 rounded-xl shadow-[0_0_30px_rgba(245,158,11,0.3)] aspect-square w-9 h-9 flex items-center justify-center">
+              <Coins className="w-5 h-5 text-black" />
             </div>
             <div>
-              <h1 className="text-xl font-black tracking-tight text-white">
+              <h1 className="text-base font-black tracking-tight text-white">
                 CRYPTO<span className="text-amber-500">FLIP</span>
               </h1>
 

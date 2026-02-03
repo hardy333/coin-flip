@@ -1,4 +1,5 @@
-export { CoinFlip } from './CoinFlip';
+export { CoinBox } from './coinBox';
+export { CoinStatusText } from './CoinStatusText';
 export { CoinAnimation } from './CoinAnimation';
 export { CoinShadow } from './CoinShadow';
 export { GlowEffect } from './GlowEffect';

@@ -56,7 +56,7 @@ export const BetHistoryCard = ({ bet, index }: BetHistoryCardProps) => {
             </div>
             <div className="text-right">
                 <p
-                    className={`text-sm font-bold font-mono ${bet.outcome === 'win' ? 'text-emerald-400' : 'text-rose-400'
+                    className={`text-[13px] font-bold font-mono ${bet.outcome === 'win' ? 'text-emerald-400' : 'text-rose-400'
                         }`}
                 >
                     {bet.outcome === 'win' ? '+' : '-'}

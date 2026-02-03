@@ -2,11 +2,11 @@ import { useQuery } from '@tanstack/react-query';
 import { apiService } from '@/services/api/ApiService';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 
-export const useBalances = () => {
+export const useGetStatistics = () => {
   return useQuery({
-    queryKey: QUERY_KEYS.BALANCES,
-    queryFn: () => apiService.getBalances(),
-    staleTime: 0, 
+    queryKey: QUERY_KEYS.STATISTICS,
+    queryFn: () => apiService.getStatistics(),
+    staleTime: 0,
     refetchOnWindowFocus: true,
     refetchOnMount: true
   });
