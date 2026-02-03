@@ -26,30 +26,24 @@ export const BettingInterface = ({
     setBetAmount,
     selectedCurrency,
     stopWin,
-    stopLoss,
-    startingBalance
+    stopLoss
   } = useCoinFlipperStore();
 
   const { data: balances = [] } = useBalances();
   const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
 
   const getLimitStatus = () => {
-    if (startingBalance === null) return { isReached: false, message: null };
-
-    const profit = currentBalance - startingBalance;
-    const loss = startingBalance - currentBalance;
-
-    if (stopWin !== null && profit >= stopWin) {
+    if (stopWin !== null && currentBalance >= stopWin) {
       return {
         isReached: true,
-        message: `Stop Win reached! Profit: ${profit.toFixed(2)}`
+        message: `Stop Win reached! Balance: ${currentBalance.toFixed(2)}`
       };
     }
 
-    if (stopLoss !== null && loss >= stopLoss) {
+    if (stopLoss !== null && currentBalance <= stopLoss) {
       return {
         isReached: true,
-        message: `Stop Loss reached! Loss: ${loss.toFixed(2)}`
+        message: `Stop Loss reached! Balance: ${currentBalance.toFixed(2)}`
       };
     }
 

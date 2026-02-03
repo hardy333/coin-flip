@@ -54,15 +54,26 @@ export const StopLimits = () => {
                                 setStopWin(value ? Number(value) : null, startingBalance === null ? currentBalance : undefined);
                             }}
                             placeholder="Stop Win"
-                            className="w-full pr-8"
+                            className="w-full pr-16"
                         />
-                        <div
-                            data-tooltip-id="stop-win-tooltip"
-                            data-tooltip-html="Stop Win automatically triggers when your balance reaches or exceeds this amount.<br/>This helps you secure profits by stopping betting once you reach your target balance."
-                            data-tooltip-place="top"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-help z-10"
-                        >
-                            <Info className="w-4 h-4 text-white/40 hover:text-white/60 transition-colors" />
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
+                            {stopWin !== null && (
+                                <button
+                                    onClick={() => setStopWin(null)}
+                                    className="p-1 hover:bg-white/10 rounded transition-colors"
+                                    type="button"
+                                >
+                                    <X className="w-3 h-3 text-white/40 hover:text-white/60 transition-colors" />
+                                </button>
+                            )}
+                            <div
+                                data-tooltip-id="stop-win-tooltip"
+                                data-tooltip-html="Stop Win automatically triggers when your balance reaches or exceeds this amount.<br/>This helps you secure profits by stopping betting once you reach your target balance."
+                                data-tooltip-place="top"
+                                className="cursor-help"
+                            >
+                                <Info className="w-4 h-4 text-white/40 hover:text-white/60 transition-colors" />
+                            </div>
                         </div>
                         <CustomTooltip
                             id="stop-win-tooltip"
@@ -88,15 +99,26 @@ export const StopLimits = () => {
                                 setStopLoss(value ? Number(value) : null, startingBalance === null ? currentBalance : undefined);
                             }}
                             placeholder="Stop Loss"
-                            className="w-full pr-8"
+                            className="w-full pr-16"
                         />
-                        <div
-                            data-tooltip-id="stop-loss-tooltip"
-                            data-tooltip-html="Stop Loss automatically triggers when your balance falls to or below this amount.<br/>This helps protect you from further losses by stopping betting once you reach your maximum acceptable loss threshold."
-                            data-tooltip-place="top"
-                            className="absolute right-2 top-1/2 -translate-y-1/2 cursor-help z-10"
-                        >
-                            <Info className="w-4 h-4 text-white/40 hover:text-white/60 transition-colors" />
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
+                            {stopLoss !== null && (
+                                <button
+                                    onClick={() => setStopLoss(null)}
+                                    className="p-1 hover:bg-white/10 rounded transition-colors"
+                                    type="button"
+                                >
+                                    <X className="w-3 h-3 text-white/40 hover:text-white/60 transition-colors" />
+                                </button>
+                            )}
+                            <div
+                                data-tooltip-id="stop-loss-tooltip"
+                                data-tooltip-html="Stop Loss automatically triggers when your balance falls to or below this amount.<br/>This helps protect you from further losses by stopping betting once you reach your maximum acceptable loss threshold."
+                                data-tooltip-place="top"
+                                className="cursor-help"
+                            >
+                                <Info className="w-4 h-4 text-white/40 hover:text-white/60 transition-colors" />
+                            </div>
                         </div>
                         <CustomTooltip
                             id="stop-loss-tooltip"
