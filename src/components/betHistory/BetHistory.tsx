@@ -59,7 +59,7 @@ export const BetHistory = () => {
           <div className="ml-auto">
             <Dropdown
               options={[
-                { value: 'ALL', label: 'All Currencies' },
+                { value: 'ALL', label: 'All ' },
                 ...Object.values(Currency).map((currency) => ({
                   value: currency,
                   label: currency
@@ -69,7 +69,7 @@ export const BetHistory = () => {
               onChange={(value) => setCurrencyFilter(value as Currency | 'ALL')}
               placeholder="Select Currency"
               variant="dark"
-              className="w-[120px]"
+              className="!w-[100px] min-w-[100px]"
               renderButtonContent={(selectedOption) => {
                 if (selectedOption?.value === 'ALL') {
                   return <Coins className="w-4 h-4 text-white/50" />;

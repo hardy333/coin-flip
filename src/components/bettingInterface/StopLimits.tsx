@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import { useBalances } from '@/hooks';
 import { getBalanceByCurrency } from '@/utils';
@@ -13,13 +15,59 @@ export const StopLimits = () => {
         setStopLoss,
         resetLimits,
         selectedCurrency,
-        startingBalance
+        startingBalance,
+        autoBettingMode
     } = useCoinFlipperStore();
 
     const { data: balances = [] } = useBalances();
     const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
 
+    const [localWinLimit, setLocalWinLimit] = useState<string>(stopWin !== null ? stopWin.toString() : '');
+    const [localLossLimit, setLocalLossLimit] = useState<string>(stopLoss !== null ? stopLoss.toString() : '');
+
     const hasLimits = stopWin !== null || stopLoss !== null;
+
+    // Validation
+    const winLimitValue = localWinLimit ? Number(localWinLimit) : null;
+    const lossLimitValue = localLossLimit ? Number(localLossLimit) : null;
+    const isWinLimitInvalid = winLimitValue !== null && winLimitValue < currentBalance;
+    const isLossLimitInvalid = lossLimitValue !== null && lossLimitValue > currentBalance;
+
+    const handleWinLimitBlur = () => {
+        if (localWinLimit === '') {
+            setStopWin(null);
+            return;
+        }
+
+        const numValue = Number(localWinLimit);
+        if (isNaN(numValue) || numValue < currentBalance) {
+            toast.error('Invalid Win Limit', {
+                description: `Win limit must be bigger than your current balance (${currentBalance.toFixed(2)}).`,
+                duration: 3000
+            });
+            return;
+        }
+
+        setStopWin(numValue, startingBalance === null ? currentBalance : undefined);
+    };
+
+    const handleLossLimitBlur = () => {
+        if (localLossLimit === '') {
+            setStopLoss(null);
+            return;
+        }
+
+        const numValue = Number(localLossLimit);
+        if (isNaN(numValue) || numValue > currentBalance) {
+            toast.error('Invalid Loss Limit', {
+                description: `Loss limit must be smaller than your current balance (${currentBalance.toFixed(2)}).`,
+                duration: 3000
+            });
+            return;
+        }
+
+        setStopLoss(numValue, startingBalance === null ? currentBalance : undefined);
+    };
 
     return (
         <div className="space-y-4">
@@ -27,8 +75,13 @@ export const StopLimits = () => {
                 <h3 className="text-sm font-bold text-white uppercase tracking-wider">Stop Limits</h3>
                 {hasLimits && (
                     <button
-                        onClick={resetLimits}
-                        className="text-xs text-white/50 hover:text-white/80 transition-colors flex items-center gap-1"
+                        onClick={() => {
+                            resetLimits();
+                            setLocalWinLimit('');
+                            setLocalLossLimit('');
+                        }}
+                        disabled={autoBettingMode}
+                        className="text-xs text-white/50 hover:text-white/80 transition-colors flex items-center gap-1 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         <X className="w-3 h-3" />
                         Clear All
@@ -39,8 +92,8 @@ export const StopLimits = () => {
             <div className="grid grid-cols-2 gap-3">
                 <div className="space-y-1.5">
                     <div className="flex items-center gap-1">
-                        <Target className="w-3 h-3 text-emerald-400" />
-                        <label className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider">
+                        <Target className={`w-3 h-3 text-emerald-400 ${autoBettingMode ? 'opacity-40' : ''}`} />
+                        <label className={`text-[10px] font-bold text-emerald-400 uppercase tracking-wider ${autoBettingMode ? 'opacity-40' : ''}`}>
                             Stop Win
                         </label>
                     </div>
@@ -48,19 +101,25 @@ export const StopLimits = () => {
                         <Input
                             type="number"
                             variant="dark"
-                            value={stopWin !== null ? stopWin.toString() : ''}
+                            value={localWinLimit}
                             onChange={(e) => {
                                 const value = e.target.value;
-                                setStopWin(value ? Number(value) : null, startingBalance === null ? currentBalance : undefined);
+                                setLocalWinLimit(value);
                             }}
+                            onBlur={handleWinLimitBlur}
                             placeholder="Stop Win"
-                            className="w-full pr-16"
+                            disabled={autoBettingMode}
+                            className={`w-full pr-16 ${isWinLimitInvalid ? '!border-rose-500 !border !border-dashed' : ''} ${autoBettingMode ? 'opacity-40 cursor-not-allowed' : ''}`}
                         />
                         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
                             {stopWin !== null && (
                                 <button
-                                    onClick={() => setStopWin(null)}
-                                    className="p-1 hover:bg-white/10 rounded transition-colors"
+                                    onClick={() => {
+                                        setStopWin(null);
+                                        setLocalWinLimit('');
+                                    }}
+                                    disabled={autoBettingMode}
+                                    className="p-1 hover:bg-white/10 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                     type="button"
                                 >
                                     <X className="w-3 h-3 text-white/40 hover:text-white/60 transition-colors" />
@@ -68,7 +127,7 @@ export const StopLimits = () => {
                             )}
                             <div
                                 data-tooltip-id="stop-win-tooltip"
-                                data-tooltip-html="Stop Win automatically triggers when your balance reaches or exceeds this amount.<br/>This helps you secure profits by stopping betting once you reach your target balance."
+                                data-tooltip-html="Stop Win automatically triggers when your balance reaches or exceeds this amount.<br/>This helps you secure profits by stopping betting once you reach your target balance.<br/><br/><b>Win limit must be bigger than your current balance.</b>"
                                 data-tooltip-place="top"
                                 className="cursor-help"
                             >
@@ -84,8 +143,8 @@ export const StopLimits = () => {
 
                 <div className="space-y-1.5">
                     <div className="flex items-center gap-1">
-                        <Shield className="w-3 h-3 text-rose-400" />
-                        <label className="text-[10px] font-bold text-rose-400 uppercase tracking-wider">
+                        <Shield className={`w-3 h-3 text-rose-400 ${autoBettingMode ? 'opacity-40' : ''}`} />
+                        <label className={`text-[10px] font-bold text-rose-400 uppercase tracking-wider ${autoBettingMode ? 'opacity-40' : ''}`}>
                             Stop Loss
                         </label>
                     </div>
@@ -93,19 +152,25 @@ export const StopLimits = () => {
                         <Input
                             type="number"
                             variant="dark"
-                            value={stopLoss !== null ? stopLoss.toString() : ''}
+                            value={localLossLimit}
                             onChange={(e) => {
                                 const value = e.target.value;
-                                setStopLoss(value ? Number(value) : null, startingBalance === null ? currentBalance : undefined);
+                                setLocalLossLimit(value);
                             }}
+                            onBlur={handleLossLimitBlur}
                             placeholder="Stop Loss"
-                            className="w-full pr-16"
+                            disabled={autoBettingMode}
+                            className={`w-full pr-16 ${isLossLimitInvalid ? '!border-rose-500 !border !border-dashed' : ''} ${autoBettingMode ? 'opacity-40 cursor-not-allowed' : ''}`}
                         />
                         <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2 z-10">
                             {stopLoss !== null && (
                                 <button
-                                    onClick={() => setStopLoss(null)}
-                                    className="p-1 hover:bg-white/10 rounded transition-colors"
+                                    onClick={() => {
+                                        setStopLoss(null);
+                                        setLocalLossLimit('');
+                                    }}
+                                    disabled={autoBettingMode}
+                                    className="p-1 hover:bg-white/10 rounded transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                                     type="button"
                                 >
                                     <X className="w-3 h-3 text-white/40 hover:text-white/60 transition-colors" />
@@ -113,7 +178,7 @@ export const StopLimits = () => {
                             )}
                             <div
                                 data-tooltip-id="stop-loss-tooltip"
-                                data-tooltip-html="Stop Loss automatically triggers when your balance falls to or below this amount.<br/>This helps protect you from further losses by stopping betting once you reach your maximum acceptable loss threshold."
+                                data-tooltip-html="Stop Loss automatically triggers when your balance falls to or below this amount.<br/>This helps protect you from further losses by stopping betting once you reach your maximum acceptable loss threshold.<br/><br/><b>Loss limit must be smaller than your current balance.</b>"
                                 data-tooltip-place="top"
                                 className="cursor-help"
                             >

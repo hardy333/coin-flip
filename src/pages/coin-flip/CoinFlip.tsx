@@ -25,11 +25,6 @@ export function CoinFlip() {
                 position="top-right"
                 richColors
                 theme='light'
-                toastOptions={{
-                    classNames: {
-                        error: '!border-transparent [&>div>div]:!text-white'
-                    }
-                }}
             />
 
             <Header />
