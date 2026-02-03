@@ -17,7 +17,7 @@ interface CoinFlipProps {
 }
 
 export const CoinBox = ({ isFlipping, result, }: CoinFlipProps) => {
-  const { selectedCurrency } = useCoinFlipperStore();
+  const { selectedCurrency, betAmount } = useCoinFlipperStore();
   const lottieRef = useRef<LottieRefCurrentProps>(null);
 
 
@@ -48,7 +48,12 @@ export const CoinBox = ({ isFlipping, result, }: CoinFlipProps) => {
       <CoinShadow isFlipping={isFlipping} />
       <WinParticles result={result} isFlipping={isFlipping} />
       <ResultBadge result={result} isFlipping={isFlipping} />
-      <CoinStatusText isFlipping={isFlipping} result={result} />
+      <CoinStatusText
+        isFlipping={isFlipping}
+        result={result}
+        betAmount={betAmount}
+        currency={selectedCurrency}
+      />
     </div>
   );
 };

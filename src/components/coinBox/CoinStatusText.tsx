@@ -1,12 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Sparkles, Coins } from 'lucide-react';
+import { Sparkles, Coins, ArrowUpRight, ArrowDownRight } from 'lucide-react';
+import { Currency } from '@/types';
 
 interface CoinStatusTextProps {
     isFlipping: boolean;
     result: 'win' | 'loss' | null;
+    betAmount?: number;
+    currency?: Currency;
 }
 
-export const CoinStatusText = ({ isFlipping, result }: CoinStatusTextProps) => {
+export const CoinStatusText = ({ isFlipping, result, betAmount, currency }: CoinStatusTextProps) => {
 
     const getTextConfig = () => {
         if (isFlipping) {
@@ -17,6 +20,24 @@ export const CoinStatusText = ({ isFlipping, result }: CoinStatusTextProps) => {
                 className: 'text-sm font-bold text-white/80 animate-pulse',
                 initial: undefined,
                 delay: 0
+            };
+        }
+
+        if (result !== null && betAmount !== undefined && betAmount > 0) {
+            const isWin = result === 'win';
+            const amountText = isWin
+                ? `+${betAmount.toFixed(2)} ${currency || ''}`
+                : `-${betAmount.toFixed(2)} ${currency || ''}`;
+
+            return {
+                key: isWin ? 'win-amount' : 'loss-amount',
+                text: amountText,
+                icon: isWin ? ArrowUpRight : ArrowDownRight,
+                className: isWin
+                    ? 'text-sm font-bold text-emerald-500'
+                    : 'text-sm font-bold text-rose-500',
+                initial: { opacity: 0, y: 10 },
+                delay: 0.3
             };
         }
 

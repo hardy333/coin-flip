@@ -22,6 +22,7 @@ interface CoinFlipperStore {
   setStopLoss: (amount: number | null, currentBalance?: number) => void;
   resetLimits: () => void;
   toggleAutoBettingMode: () => void;
+  setAutoBettingMode: (enabled: boolean) => void;
 }
 
 export const STORAGE_KEY = 'crypto-bet-storage' as const;
@@ -105,6 +106,10 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
 
       toggleAutoBettingMode: () => {
         set((state) => ({ autoBettingMode: !state.autoBettingMode }));
+      },
+
+      setAutoBettingMode: (enabled) => {
+        set({ autoBettingMode: enabled });
       }
     }),
     {

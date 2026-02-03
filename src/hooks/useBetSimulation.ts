@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
@@ -24,7 +24,7 @@ export const useBetSimulation = () => {
     stopWin,
     stopLoss,
     startingBalance,
-    autoBettingMode
+    setAutoBettingMode
   } = useCoinFlipperStore();
 
   const { openStopWinModal, openStopLossModal } = useModalStore();
@@ -40,7 +40,7 @@ export const useBetSimulation = () => {
   /*****************\
   # Main Bet Function
   \*****************/
-  const placeBet = async (isAutoBetting?: boolean) => {
+  const placeBet = async () => {
     if (betAmount > currentBalance) {
       alert('Insufficient balance!');
       return;
@@ -70,13 +70,12 @@ export const useBetSimulation = () => {
       showToast(outcome);
       setLastResult(outcome);
 
-      // Check if auto betting is on and trigger next bet
-      if (isAutoBetting) {
+      const autoBettingMode = useCoinFlipperStore.getState().autoBettingMode;
+      if (autoBettingMode) {
         makeAutoBet();
       }
 
     } catch (error) {
-      console.error('Bet failed:', error);
       toast.error('Bet failed. Please try later.', {
         duration: TOAST_DURATION_SHORT
       });
@@ -88,15 +87,7 @@ export const useBetSimulation = () => {
     }
   };
 
-  // useEffect(() => {
-  //   if (autoBettingMode) {
-  //     placeBet(true);
-  //   }
-  //   return () => {
-  //     placeBet(autoBettingMode);
-  //   }
-  // }, []);
-  console.log("autside", autoBettingMode);
+
 
   /*****************\
   # Helper functions
@@ -104,13 +95,9 @@ export const useBetSimulation = () => {
   const makeAutoBet = async () => {
     await delay(AUTO_BET_DELAY_IN_MS);
 
-    console.log("Inside : ", autoBettingMode);
-    const autoBettingMode2 = useCoinFlipperStore.getState().autoBettingMode;
-    console.log("autoBettingMode:  inside 2 ", autoBettingMode2);
-
-
-    if (autoBettingMode2) {
-      placeBet(true);
+    const autoBettingMode = useCoinFlipperStore.getState().autoBettingMode;
+    if (autoBettingMode) {
+      placeBet();
     }
   };
 
@@ -139,9 +126,11 @@ export const useBetSimulation = () => {
     if (stopWin !== null && currentBalance >= stopWin) {
       const profit = startingBalance !== null ? currentBalance - startingBalance : 0;
       openStopWinModal(currentBalance, profit);
+      setAutoBettingMode(false);
     } else if (stopLoss !== null && currentBalance <= stopLoss) {
       const loss = startingBalance !== null ? startingBalance - currentBalance : 0;
       openStopLossModal(currentBalance, loss);
+      setAutoBettingMode(false);
     }
   };
 

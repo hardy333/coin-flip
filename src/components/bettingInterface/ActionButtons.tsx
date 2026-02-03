@@ -36,9 +36,7 @@ export const ActionButtons = ({
 
         // If activating auto betting, trigger first bet
         if (!wasActive) {
-            setTimeout(() => {
-                onBet(true);
-            }, 500);
+            onBet(true);
         }
     };
 

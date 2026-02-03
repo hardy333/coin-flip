@@ -15,7 +15,7 @@ export class GameController {
         amount: number,
         currency: Currency
     ): Promise<FlipCoinResponse> {
-        const isWin = Math.random() >= 0.5;
+        const isWin = Math.random() >= 0.1;
         const outcome = isWin ? 'win' : 'loss';
 
         const balanceAfter = await this.balanceController.updateBalance(

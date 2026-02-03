@@ -8,6 +8,7 @@ interface MultiplierButtonsProps {
   balance: number;
   isFlipping?: boolean;
   isLimitReached?: boolean;
+  autoBettingMode?: boolean;
 }
 
 export const MultiplierButtons = ({
@@ -17,9 +18,10 @@ export const MultiplierButtons = ({
   betAmount,
   balance,
   isFlipping = false,
-  isLimitReached = false
+  isLimitReached = false,
+  autoBettingMode = false
 }: MultiplierButtonsProps) => {
-  const isDisabled = isFlipping || isLimitReached;
+  const isDisabled = isFlipping || isLimitReached || autoBettingMode;
   const isHalfDisabled = isDisabled || betAmount <= 1;
   const isDoubleDisabled = isDisabled || betAmount * 2 > balance;
   const isMaxDisabled = isDisabled || balance <= 0;
