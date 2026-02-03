@@ -69,7 +69,7 @@ export const BetHistory = () => {
               onChange={(value) => setCurrencyFilter(value as Currency | 'ALL')}
               placeholder="Select Currency"
               variant="dark"
-              className="w-32"
+              className="w-[120px]"
               renderButtonContent={(selectedOption) => {
                 if (selectedOption?.value === 'ALL') {
                   return <Coins className="w-4 h-4 text-white/50" />;
