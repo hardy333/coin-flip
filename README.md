@@ -70,7 +70,7 @@ This will serve the built files from the `dist` directory, allowing you to test 
 - `npm run clean` - Remove build artifacts and cache
 - `npm run clean:full` - Full clean including node_modules (requires reinstall)
 
-## Patterns
+## Patterns and Different Techniques
 
 This project follows several architectural and code patterns:
 
@@ -168,6 +168,18 @@ Error boundaries are used to catch and handle React errors gracefully, providing
 
 **Used in:** `components/ui/ErrorBoundary.tsx`
 
+### 6. Skeleton Loading Pattern
+
+Skeleton loaders are used to provide visual feedback during data fetching, improving perceived performance and user experience. Each major component has a corresponding skeleton component that matches its layout.
+
+**Used in:** `BalanceCardSkeleton.tsx`, `SkeletonCard.tsx`, `BetHistorySkeleton.tsx`
+
+### 7. UI Animations for Better UX
+
+UI animations enhance user experience by providing visual feedback, smooth transitions, and engaging interactions throughout the application.
+
+**Used in:** Framer Motion animations, coin flip animations, particle effects, transitions
+
 ## Tech Stack
 
 - **React 18** - UI library
@@ -187,3 +199,14 @@ Error boundaries are used to catch and handle React errors gracefully, providing
 - Bet history tracking
 - Statistics dashboard
 - Responsive design
+
+## Improvements for future
+
+- [ ] Multi language support
+- [ ] Better folder structure implementation
+- [ ] Code splitting optimization
+- [ ] Dark light mode support
+- [ ] Better responsive design and UX on mobile
+- [ ] Better stop win/loss business logic and UX implementation
+- [ ] Better Coin animation
+- [ ] Unit tests
