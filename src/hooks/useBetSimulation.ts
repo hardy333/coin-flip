@@ -3,7 +3,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import { useModalStore } from '@/store/modalStore';
-import { useBalances } from './useBalances';
 import { useMakeBet } from './useMakeBet';
 import { delay, getBalanceByCurrency } from '@/utils';
 import { QUERY_KEYS } from '@/constants/queryKeys';
@@ -17,8 +16,6 @@ export const useBetSimulation = () => {
   const [coinIsInAnimationMode, setCoinIsInAnimationMode] = useState(false);
 
   const {
-    selectedCurrency,
-    betAmount,
     isMartingaleEnabled,
     doubleBetForMartingale,
     stopWin,
@@ -27,12 +24,8 @@ export const useBetSimulation = () => {
     setAutoBettingMode
   } = useCoinFlipperStore();
 
-  const { openStopWinModal, openStopLossModal } = useModalStore();
-
-  const { data: balances = [] } = useBalances();
+  const { openStopWinModal, openStopLossModal, openInsufficientBalanceModal } = useModalStore();
   const queryClient = useQueryClient();
-  const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
-
   const betMutation = useMakeBet();
 
 
@@ -41,9 +34,18 @@ export const useBetSimulation = () => {
   # Main Bet Function
   \*****************/
   const placeBet = async () => {
-    if (betAmount > currentBalance) {
-      alert('Insufficient balance!');
+    const betAmount = useCoinFlipperStore.getState().betAmount;
+    const selectedCurrency = useCoinFlipperStore.getState().selectedCurrency;
+    const balances = queryClient.getQueryData<UserBalances>(QUERY_KEYS.BALANCES) || [];
+
+    const currentBalance = getBalanceByCurrency(balances, selectedCurrency);
+
+
+    if (betAmount > currentBalance || betAmount <= 0) {
+      showInsufficientBalanceModal(betAmount, currentBalance);
+      setAutoBettingMode(false);
       return;
+
     }
 
     setCoinIsInAnimationMode(true);
@@ -92,6 +94,10 @@ export const useBetSimulation = () => {
   /*****************\
   # Helper functions
   \*****************/
+  const showInsufficientBalanceModal = (betAmount: number, currentBalance: number) => {
+    openInsufficientBalanceModal(betAmount, currentBalance);
+  };
+
   const makeAutoBet = async () => {
     await delay(AUTO_BET_DELAY_IN_MS);
 

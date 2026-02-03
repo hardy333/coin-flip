@@ -32,7 +32,7 @@ const currencies = [
   const;
 
 export const BalanceDisplay = () => {
-  const { selectedCurrency, setSelectedCurrency } = useCoinFlipperStore();
+  const { selectedCurrency, setSelectedCurrency, autoBettingMode } = useCoinFlipperStore();
   const { data: balances = [], isLoading, error } = useBalances();
 
   if (isLoading) {
@@ -64,6 +64,7 @@ export const BalanceDisplay = () => {
           balance={getBalanceByCurrency(balances, id)}
           isSelected={selectedCurrency === id}
           onSelect={() => setSelectedCurrency(id)}
+          disabled={autoBettingMode}
         />
       ))}
     </div>

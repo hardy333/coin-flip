@@ -12,6 +12,7 @@ interface BalanceCardProps {
   balance: number;
   isSelected: boolean;
   onSelect: () => void;
+  disabled?: boolean;
 }
 
 export const BalanceCard = ({
@@ -21,17 +22,20 @@ export const BalanceCard = ({
   bgColor,
   balance,
   isSelected,
-  onSelect
+  onSelect,
+  disabled = false
 }: BalanceCardProps) => {
   return (
     <button
       onClick={onSelect}
+      disabled={disabled}
       className={classNames(
         'relative group p-4 rounded-2xl border transition-all duration-300',
         {
           [bgColor]: isSelected,
           'border-amber-500 shadow-[0_0_30px_rgba(245,158,11,0.2)]': isSelected,
-          'bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10': !isSelected
+          'bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10': !isSelected,
+          'opacity-40 cursor-not-allowed': disabled && !isSelected
         }
       )}>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-3">
