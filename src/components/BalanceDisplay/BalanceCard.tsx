@@ -34,16 +34,16 @@ export const BalanceCard = ({
           'bg-white/[0.02] border-white/5 hover:bg-white/5 hover:border-white/10': !isSelected
         }
       )}>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-3">
         <div className={`p-3 rounded-xl ${bgColor}`}>
           <Icon className={`w-6 h-6 ${color}`} />
         </div>
-        <div className="text-left flex-1">
+        <div className="text-center md:text-left flex-1">
           <p className="text-xs text-white/40 font-bold uppercase tracking-wider mb-1">
             {id}
           </p>
           <p
-            className={`text-xl font-black font-mono tracking-tight ${isSelected ? 'text-white' : 'text-white/70'}`}>
+            className={`text-base md:text-xl font-black font-mono tracking-tight ${isSelected ? 'text-white' : 'text-white/70'}`}>
             {formatCurrency(balance, id).split(' ')[0]}
           </p>
         </div>

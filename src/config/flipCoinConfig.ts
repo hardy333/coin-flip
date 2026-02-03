@@ -23,3 +23,5 @@ export const FLIP_COIN_BUTTON_TEXT = {
 export const COIN_ANIMATION_DURATION_IN_MS = 200;
 
 export const DEFAULT_BET_HISTORY_LIST_ITEMS_COUNT = 20;
+
+export const STORAGE_PREFIX = 'coin-flip';

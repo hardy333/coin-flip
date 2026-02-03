@@ -10,7 +10,7 @@ export function BettingControlsSection({
   isFlipping
 }: BettingControlsSectionProps) {
   return (
-    <div className="lg:col-span-3 order-2 lg:order-1">
+    <div className="lg:col-span-3 order-2 lg:order-1 ">
       <div className="lg:sticky lg:top-28">
         <BettingInterface
           onBet={onBet}

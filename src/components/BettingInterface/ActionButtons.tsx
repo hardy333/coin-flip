@@ -33,7 +33,7 @@ export const ActionButtons = ({
                 data-tooltip-place="top"
                 onClick={onBet}
                 disabled={isDisabled}
-                className={`w-full h-16 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-black text-xl tracking-wider shadow-[0_0_40px_rgba(245,158,11,0.3)] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none active:scale-[0.98] transition-all relative overflow-hidden group hover:scale-[1.02] flex items-center justify-center gap-3 ${isReadyToBet ? 'animate-glass-light' : ''
+                className={`w-full h-16 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-black text-xl tracking-wider shadow-[0_0_40px_rgba(245,158,11,0.3)] disabled:opacity-50 disabled:cursor-default disabled:shadow-none active:scale-[0.98] transition-all relative overflow-hidden group hover:scale-[1.02] flex items-center justify-center gap-3 ${isReadyToBet ? 'animate-glass-light' : ''
                     }`}
             >
                 {isFlipping && <div className="flipping-circle" />}

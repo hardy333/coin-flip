@@ -1,5 +1,7 @@
+import { STORAGE_PREFIX } from "@/config/flipCoinConfig";
+
 export class StorageService {
-    constructor(private prefix: string = 'coinflip') { }
+    constructor(private prefix: string = STORAGE_PREFIX) { }
 
     get<T>(key: string, defaultValue: T): T {
         const fullKey = this.getKey(key);
