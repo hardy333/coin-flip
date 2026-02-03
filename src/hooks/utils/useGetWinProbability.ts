@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
+import { DEFAULT_WIN_PROBABILITY } from '@/config/flipCoinConfig';
 
 const WIN_PROBABILITY_QUERY_KEY = 'winProbability';
 
@@ -16,6 +17,8 @@ export const useGetWinProbability = () => {
             if (!isNaN(probability) && probability >= 0 && probability <= 1) {
                 setWinProbability(probability);
             }
+        } else {
+            setWinProbability(DEFAULT_WIN_PROBABILITY);
         }
     }, [setWinProbability]);
 };

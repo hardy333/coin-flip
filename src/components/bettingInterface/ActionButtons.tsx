@@ -60,7 +60,7 @@ export const ActionButtons = ({
             <button
                 onClick={handleAutoBetClick}
                 disabled={!autoBettingMode && (isLimitReached || betAmount <= 0 || betAmount > balance)}
-                className={`w-full h-12 rounded-xl font-black text-base tracking-wider transition-all relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 ${autoBettingMode
+                className={`w-full h-12 rounded-xl font-medium text-base tracking-wider transition-all relative overflow-hidden group hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 ${autoBettingMode
                     ? 'bg-gradient-to-r from-rose-500 to-red-500 text-white shadow-[0_0_30px_rgba(239,68,68,0.4)]'
                     : 'bg-gradient-to-r from-emerald-500 to-green-500 text-white shadow-[0_0_30px_rgba(16,185,129,0.4)]'
                     } disabled:opacity-50 disabled:cursor-default disabled:shadow-none`}

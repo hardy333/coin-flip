@@ -131,7 +131,7 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
         stopWin: state.stopWin,
         stopLoss: state.stopLoss,
         startingBalance: state.startingBalance,
-        winProbability: state.winProbability
+        // winProbability: state.winProbability
         // autoBettingMode is excluded from persistence
       })
     }
