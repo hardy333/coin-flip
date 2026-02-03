@@ -1,15 +1,15 @@
-import { Bet, FilterOption } from '@/types';
+import { Bet, FilterOption, Currency } from '@/types';
 import { StorageService } from '../storage/StorageService';
 import { delay, getRandomDelay } from '@/utils';
 import { MOCK_API_DELAY_MIN, MOCK_API_DELAY_MAX } from '@/config/flipCoinConfig';
 
 export class HistoryController {
     private readonly STORAGE_KEY = 'bet_history_v1';
-    private readonly MAX_HISTORY_SIZE = 50;
+    private readonly MAX_HISTORY_SIZE = 5000;
 
     constructor(private storage: StorageService) { }
 
-    async getHistory(filter: FilterOption = FilterOption.All, amount?: number | null): Promise<Bet[]> {
+    async getHistory(filter: FilterOption = FilterOption.All, currency?: Currency, amount?: number | null): Promise<Bet[]> {
         await delay(getRandomDelay(MOCK_API_DELAY_MIN, MOCK_API_DELAY_MAX));
 
         const allBets = this.storage.get<Bet[]>(this.STORAGE_KEY, []);
@@ -18,6 +18,10 @@ export class HistoryController {
 
         if (filter !== FilterOption.All) {
             filteredBets = filteredBets.filter((bet) => bet.outcome === filter);
+        }
+
+        if (currency !== undefined) {
+            filteredBets = filteredBets.filter((bet) => bet.currency === currency);
         }
 
         if (amount !== undefined && amount !== null && amount > 0) {

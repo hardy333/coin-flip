@@ -26,7 +26,8 @@ export const BettingInterface = ({
     setBetAmount,
     selectedCurrency,
     stopWin,
-    stopLoss
+    stopLoss,
+    autoBettingMode
   } = useCoinFlipperStore();
 
   const { data: balances = [] } = useBalances();
@@ -68,6 +69,7 @@ export const BettingInterface = ({
         betAmount={betAmount}
         selectedCurrency={selectedCurrency}
         onAmountChange={setBetAmount}
+        disabled={isFlipping || autoBettingMode}
       />
 
       <PresetAmountButtons
@@ -77,6 +79,7 @@ export const BettingInterface = ({
         onAmountSelect={setBetAmount}
         isFlipping={isFlipping}
         isLimitReached={limitStatus.isReached}
+        autoBettingMode={autoBettingMode}
       />
 
       <MultiplierButtons
@@ -87,6 +90,7 @@ export const BettingInterface = ({
         balance={currentBalance}
         isFlipping={isFlipping}
         isLimitReached={limitStatus.isReached}
+        autoBettingMode={autoBettingMode}
       />
 
       <ActionButtons

@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { getCurrencySymbol } from '@/components/coinBox/utils';
+import { getCurrencyIcon } from '@/components/coinBox/utils';
 
 interface StaticCoinProps {
   isFlipping: boolean;
@@ -8,7 +8,7 @@ interface StaticCoinProps {
 }
 
 export function StaticCoin({ isFlipping, result, currency }: StaticCoinProps) {
-  const symbol = getCurrencySymbol(currency);
+  const icon = getCurrencyIcon(currency);
 
   return (
     <AnimatePresence>
@@ -66,17 +66,17 @@ export function StaticCoin({ isFlipping, result, currency }: StaticCoinProps) {
                 }`}
             />
 
-            {/* Currency Symbol */}
-            <span
-              className={`text-6xl md:text-8xl font-black drop-shadow-lg transition-colors duration-500 ${result === 'win'
+            {/* Currency Icon */}
+            <div
+              className={`w-24 h-24 md:w-32 md:h-32 drop-shadow-lg transition-colors duration-500 flex items-center justify-center ${result === 'win'
                 ? 'text-emerald-100'
                 : result === 'loss'
                   ? 'text-rose-100'
                   : 'text-amber-100'
                 }`}
             >
-              {symbol}
-            </span>
+              {icon}
+            </div>
 
             {/* Shine effect */}
             <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-transparent via-white/25 to-transparent" />

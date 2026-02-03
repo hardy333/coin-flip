@@ -66,7 +66,8 @@ export const StatisticsCardsList = ({ stats }: StatisticsCardsListProps) => {
       icon: DollarSign,
       color: isProfitPositive ? 'text-emerald-500' : 'text-rose-500',
       bgColor: isProfitPositive ? 'bg-emerald-500/10' : 'bg-rose-500/10',
-      borderColor: isProfitPositive ? 'border-emerald-500/50' : 'border-rose-500/50'
+      borderColor: isProfitPositive ? 'border-emerald-500/50' : 'border-rose-500/50',
+      borderDashed: true
     },
     {
       label: 'Total Bets',
@@ -88,6 +89,7 @@ export const StatisticsCardsList = ({ stats }: StatisticsCardsListProps) => {
           color={item.color}
           bgColor={item.bgColor}
           borderColor={item.borderColor}
+          borderDashed={item.borderDashed}
         />
       ))}
     </div>

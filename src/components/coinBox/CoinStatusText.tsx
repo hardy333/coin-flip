@@ -7,7 +7,6 @@ interface CoinStatusTextProps {
 }
 
 export const CoinStatusText = ({ isFlipping, result }: CoinStatusTextProps) => {
-    console.log({ isFlipping, result })
 
     const getTextConfig = () => {
         if (isFlipping) {

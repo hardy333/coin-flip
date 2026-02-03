@@ -7,4 +7,4 @@ export { ResultBadge } from './ResultBadge';
 export { StaticCoin } from './StaticCoin';
 export { WinParticles } from './WinParticles';
 export { coinFlipAnimation } from './coinFlipAnimation';
-export { getCurrencySymbol } from './utils';
+export { getCurrencyIcon } from './utils';

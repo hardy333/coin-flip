@@ -35,8 +35,8 @@ export class ApiService {
         return this.gameController.flipCoin(amount, currency);
     }
 
-    async getHistory(filter: FilterOption = FilterOption.All, amount?: number | null): Promise<Bet[]> {
-        return this.historyController.getHistory(filter, amount);
+    async getHistory(filter: FilterOption = FilterOption.All, currency?: Currency, amount?: number | null): Promise<Bet[]> {
+        return this.historyController.getHistory(filter, currency, amount);
     }
 
     async clearHistory(): Promise<void> {

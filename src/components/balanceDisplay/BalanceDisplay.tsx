@@ -1,28 +1,30 @@
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import { useBalances } from '@/hooks';
-import { Bitcoin, Coins, CircleDollarSign, AlertCircle } from 'lucide-react';
+import { Bitcoin, AlertCircle } from 'lucide-react';
+import { SiSolana } from 'react-icons/si';
 import { Currency } from '@/types';
 import { BalanceCard, BalanceCardSkeleton } from '@/components/balanceDisplay';
+import { EthereumIcon } from './EthereumIcon';
 import { getBalanceByCurrency } from '@/utils';
 
 const currencies = [
   {
     id: Currency.BTC,
-    icon: Bitcoin,
+    icon: <Bitcoin className="w-5 h-5" />,
     color: 'text-orange-500',
     bgColor: 'bg-orange-500/10',
     borderColor: 'border-orange-500/30'
   },
   {
     id: Currency.ETH,
-    icon: Coins,
+    icon: <EthereumIcon className="w-5 h-5" />,
     color: 'text-blue-500',
     bgColor: 'bg-blue-500/10',
     borderColor: 'border-blue-500/30'
   },
   {
     id: Currency.SOL,
-    icon: CircleDollarSign,
+    icon: <SiSolana className="w-5 h-5" />,
     color: 'text-purple-500',
     bgColor: 'bg-purple-500/10',
     borderColor: 'border-purple-500/30'
@@ -42,7 +44,7 @@ export const BalanceDisplay = () => {
       <div className="grid grid-cols-3 gap-4">
         {currencies.map(({ id }) => (
           <div key={id} className="p-4 rounded-2xl bg-white/[0.02] border-2 border-rose-500/20 text-center">
-            <AlertCircle className="w-6 h-6 mx-auto mb-2 text-rose-500/50" />
+            <AlertCircle className="w-5 h-5 mx-auto mb-2 text-rose-500/50" />
             <p className="text-xs text-rose-400/70">Failed to load balance</p>
           </div>
         ))}

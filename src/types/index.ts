@@ -4,6 +4,8 @@ export enum Currency {
   SOL = 'SOL'
 }
 
+export type CurrencyFilter = Currency | 'ALL';
+
 export enum FilterOption {
   All = 'all',
   Win = 'win',

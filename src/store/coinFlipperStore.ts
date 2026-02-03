@@ -11,6 +11,7 @@ interface CoinFlipperStore {
   stopWin: number | null;
   stopLoss: number | null;
   startingBalance: number | null;
+  autoBettingMode: boolean;
 
   setSelectedCurrency: (currency: Currency) => void;
   setBetAmount: (amount: number) => void;
@@ -20,6 +21,7 @@ interface CoinFlipperStore {
   setStopWin: (amount: number | null, currentBalance?: number) => void;
   setStopLoss: (amount: number | null, currentBalance?: number) => void;
   resetLimits: () => void;
+  toggleAutoBettingMode: () => void;
 }
 
 export const STORAGE_KEY = 'crypto-bet-storage' as const;
@@ -34,11 +36,12 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
       stopWin: null,
       stopLoss: null,
       startingBalance: null,
+      autoBettingMode: false,
 
       setSelectedCurrency: (currency) => set({ selectedCurrency: currency }),
 
       setBetAmount: (amount) => {
-        set({ 
+        set({
           betAmount: amount,
           baseBetAmount: amount
         });
@@ -47,12 +50,12 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
       setMartingaleEnabled: (enabled) => {
         const state = get();
         if (enabled) {
-          set({ 
+          set({
             isMartingaleEnabled: true,
             baseBetAmount: state.betAmount
           });
         } else {
-          set({ 
+          set({
             isMartingaleEnabled: false,
             betAmount: state.baseBetAmount
           });
@@ -74,34 +77,48 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
 
       setStopWin: (amount: number | null, currentBalance?: number) => {
         const state = get();
-        set({ 
+        set({
           stopWin: amount,
-          startingBalance: amount !== null && state.startingBalance === null && currentBalance !== undefined 
-            ? currentBalance 
+          startingBalance: amount !== null && state.startingBalance === null && currentBalance !== undefined
+            ? currentBalance
             : state.startingBalance
         });
       },
 
       setStopLoss: (amount: number | null, currentBalance?: number) => {
         const state = get();
-        set({ 
+        set({
           stopLoss: amount,
-          startingBalance: amount !== null && state.startingBalance === null && currentBalance !== undefined 
-            ? currentBalance 
+          startingBalance: amount !== null && state.startingBalance === null && currentBalance !== undefined
+            ? currentBalance
             : state.startingBalance
         });
       },
 
       resetLimits: () => {
-        set({ 
-          stopWin: null, 
-          stopLoss: null, 
-          startingBalance: null 
+        set({
+          stopWin: null,
+          stopLoss: null,
+          startingBalance: null
         });
+      },
+
+      toggleAutoBettingMode: () => {
+        set((state) => ({ autoBettingMode: !state.autoBettingMode }));
       }
     }),
     {
-      name: STORAGE_KEY
+      name: STORAGE_KEY,
+      partialize: (state) => ({
+        selectedCurrency: state.selectedCurrency,
+        betAmount: state.betAmount,
+        isMartingaleEnabled: state.isMartingaleEnabled,
+        baseBetAmount: state.baseBetAmount,
+        stopWin: state.stopWin,
+        stopLoss: state.stopLoss,
+        startingBalance: state.startingBalance
+        // autoBettingMode is excluded from persistence
+      })
     }
   )
 );

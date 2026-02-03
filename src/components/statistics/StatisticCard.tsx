@@ -11,6 +11,7 @@ interface StatisticCardProps {
   bgColor: string;
   subtext?: string;
   borderColor?: string;
+  borderDashed?: boolean;
 }
 
 export const StatisticCard = ({
@@ -20,13 +21,15 @@ export const StatisticCard = ({
   color,
   bgColor,
   subtext,
-  borderColor
+  borderColor,
+  borderDashed
 }: StatisticCardProps) => {
   const borderClass = borderColor || 'border-white/5';
-  
+  const borderStyleClass = borderDashed ? 'border-dashed' : '';
+
   return (
     <div
-      className={`bg-white/[0.02] border ${borderClass} rounded-xl p-4 hover:bg-white/[0.04] transition-colors`}
+      className={`bg-white/[0.02] border ${borderClass} ${borderStyleClass} rounded-xl p-4 hover:bg-white/[0.04] transition-colors`}
       style={{ height: `${STATISTIC_CARD_HEIGHT}px` }}
     >
       <div className="flex items-center gap-2 mb-2">

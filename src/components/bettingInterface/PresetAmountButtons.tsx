@@ -8,6 +8,7 @@ interface PresetAmountButtonsProps {
   onAmountSelect: (amount: number) => void;
   isFlipping?: boolean;
   isLimitReached?: boolean;
+  autoBettingMode?: boolean;
 }
 
 export const PresetAmountButtons = ({
@@ -16,9 +17,10 @@ export const PresetAmountButtons = ({
   maxBalance,
   onAmountSelect,
   isFlipping = false,
-  isLimitReached = false
+  isLimitReached = false,
+  autoBettingMode = false
 }: PresetAmountButtonsProps) => {
-  const isDisabled = isFlipping || isLimitReached;
+  const isDisabled = isFlipping || isLimitReached || autoBettingMode;
 
   return (
     <div className="grid grid-cols-3 gap-2">

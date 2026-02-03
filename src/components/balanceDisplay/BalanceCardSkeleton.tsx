@@ -26,7 +26,7 @@ export const BalanceCardSkeleton = () => {
         <div key={id} className="relative p-4 rounded-2xl bg-white/[0.02] border-2 border-white/5 animate-pulse">
           <div className="flex flex-col md:flex-row items-center md:items-start gap-3">
             <div className={`p-3 rounded-xl ${bgColor} opacity-20`}>
-              <Icon className="w-6 h-6 opacity-0" />
+              <Icon className="w-5 h-5 opacity-0" />
             </div>
             <div className="text-center md:text-left flex-1 space-y-2">
               <div className="h-3 w-8 bg-white/10 rounded mx-auto md:mx-0" />

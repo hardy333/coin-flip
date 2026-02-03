@@ -5,12 +5,14 @@ interface BetAmountInputProps {
     betAmount: number;
     selectedCurrency: Currency;
     onAmountChange: (amount: number) => void;
+    disabled?: boolean;
 }
 
 export const BetAmountInput = ({
     betAmount,
     selectedCurrency,
-    onAmountChange
+    onAmountChange,
+    disabled = false
 }: BetAmountInputProps) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const inputValue = e.target.value;
@@ -42,6 +44,7 @@ export const BetAmountInput = ({
                 value={betAmount.toString()}
                 onChange={handleChange}
                 endAdornment={selectedCurrency}
+                disabled={disabled}
             />
         </div>
     );

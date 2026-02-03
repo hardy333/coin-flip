@@ -34,7 +34,7 @@ export function CoinFlip() {
 
             <Header />
 
-            <main className="max-w-[1800px] mx-auto px-6 lg:px-8 py-4">
+            <main className="max-w-[1800px] mx-auto px-2 lg:px-6 lg:px-8 py-4">
                 <BalancesSection />
                 {!isSmallDevice && <StatisticsSection />}
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

@@ -1,12 +1,12 @@
 import { motion } from 'framer-motion';
 import { Currency } from '@/types';
 import { formatCurrency } from '@/utils';
-import { LucideIcon } from 'lucide-react';
 import classNames from 'classnames';
+import { ReactNode } from 'react';
 
 interface BalanceCardProps {
   id: Currency;
-  icon: LucideIcon;
+  icon: ReactNode;
   color: string;
   bgColor: string;
   balance: number;
@@ -16,7 +16,7 @@ interface BalanceCardProps {
 
 export const BalanceCard = ({
   id,
-  icon: Icon,
+  icon,
   color,
   bgColor,
   balance,
@@ -35,8 +35,10 @@ export const BalanceCard = ({
         }
       )}>
       <div className="flex flex-col md:flex-row items-center md:items-start gap-3">
-        <div className={`p-3 rounded-xl ${bgColor}`}>
-          <Icon className={`w-6 h-6 ${color}`} />
+        <div className={`p-3 rounded-xl ${bgColor} flex items-center justify-center`}>
+          <div className={color}>
+            {icon}
+          </div>
         </div>
         <div className="text-center md:text-left flex-1">
           <p className="text-xs text-white/40 font-bold uppercase tracking-wider mb-1">

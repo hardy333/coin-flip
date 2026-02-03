@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
@@ -8,7 +8,7 @@ import { useMakeBet } from './useMakeBet';
 import { delay, getBalanceByCurrency } from '@/utils';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { UserBalances } from '@/types';
-import { COIN_ANIMATION_DURATION_IN_MS } from '@/config/flipCoinConfig';
+import { AUTO_BET_DELAY_IN_MS, COIN_ANIMATION_DURATION_IN_MS } from '@/config/flipCoinConfig';
 
 const TOAST_DURATION_SHORT = 3000;
 
@@ -23,7 +23,8 @@ export const useBetSimulation = () => {
     doubleBetForMartingale,
     stopWin,
     stopLoss,
-    startingBalance
+    startingBalance,
+    autoBettingMode
   } = useCoinFlipperStore();
 
   const { openStopWinModal, openStopLossModal } = useModalStore();
@@ -34,10 +35,12 @@ export const useBetSimulation = () => {
 
   const betMutation = useMakeBet();
 
+
+
   /*****************\
   # Main Bet Function
   \*****************/
-  const placeBet = async () => {
+  const placeBet = async (isAutoBetting?: boolean) => {
     if (betAmount > currentBalance) {
       alert('Insufficient balance!');
       return;
@@ -67,6 +70,11 @@ export const useBetSimulation = () => {
       showToast(outcome);
       setLastResult(outcome);
 
+      // Check if auto betting is on and trigger next bet
+      if (isAutoBetting) {
+        makeAutoBet();
+      }
+
     } catch (error) {
       console.error('Bet failed:', error);
       toast.error('Bet failed. Please try later.', {
@@ -80,9 +88,32 @@ export const useBetSimulation = () => {
     }
   };
 
+  // useEffect(() => {
+  //   if (autoBettingMode) {
+  //     placeBet(true);
+  //   }
+  //   return () => {
+  //     placeBet(autoBettingMode);
+  //   }
+  // }, []);
+  console.log("autside", autoBettingMode);
+
   /*****************\
   # Helper functions
   \*****************/
+  const makeAutoBet = async () => {
+    await delay(AUTO_BET_DELAY_IN_MS);
+
+    console.log("Inside : ", autoBettingMode);
+    const autoBettingMode2 = useCoinFlipperStore.getState().autoBettingMode;
+    console.log("autoBettingMode:  inside 2 ", autoBettingMode2);
+
+
+    if (autoBettingMode2) {
+      placeBet(true);
+    }
+  };
+
   const showToast = (result: 'win' | 'loss') => {
     if (result === 'win') {
       toast.success('You won! Balance doubled.', {
