@@ -1,16 +1,11 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { CoinFlip } from '@/pages/coin-flip';
-
-const queryClient = new QueryClient();
-
-function GameLayout() {
-  return <CoinFlip />;
-}
+import { Providers } from './providers/Providers';
 
 export function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <GameLayout />
-    </QueryClientProvider>);
+    <Providers>
+      <CoinFlip />
+    </Providers>);
 
 }

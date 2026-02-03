@@ -9,13 +9,15 @@ import {
     StatisticsSection,
     Footer
 } from './';
-import { useBetSimulation } from '@/hooks';
+import { useBetSimulation, useGetWinProbability } from '@/hooks';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { StopLimitModal } from '@/components/StopLimitModal';
 
 export function CoinFlip() {
     const { placeBet, lastResult, isFlipping } = useBetSimulation();
     const isSmallDevice = useMediaQuery(`only screen and (max-width:700px)`);
+
+    useGetWinProbability();
 
     return (
         <div className="min-h-screen bg-[var(--bg-primary)] text-white font-sans selection:bg-amber-500/30">

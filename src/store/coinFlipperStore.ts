@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { Currency } from '@/types';
-import { DEFAULT_BET_AMOUNT, DEFAULT_SELECTED_CURRENCY } from '@/config/flipCoinConfig';
+import { DEFAULT_BET_AMOUNT, DEFAULT_SELECTED_CURRENCY, DEFAULT_WIN_PROBABILITY } from '@/config/flipCoinConfig';
 
 interface CoinFlipperStore {
   selectedCurrency: Currency;
@@ -12,6 +12,7 @@ interface CoinFlipperStore {
   stopLoss: number | null;
   startingBalance: number | null;
   autoBettingMode: boolean;
+  winProbability: number;
 
   setSelectedCurrency: (currency: Currency) => void;
   setBetAmount: (amount: number) => void;
@@ -23,6 +24,7 @@ interface CoinFlipperStore {
   resetLimits: () => void;
   toggleAutoBettingMode: () => void;
   setAutoBettingMode: (enabled: boolean) => void;
+  setWinProbability: (probability: number) => void;
 }
 
 export const STORAGE_KEY = 'crypto-bet-storage' as const;
@@ -38,6 +40,7 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
       stopLoss: null,
       startingBalance: null,
       autoBettingMode: false,
+      winProbability: DEFAULT_WIN_PROBABILITY,
 
       setSelectedCurrency: (currency) => set({ selectedCurrency: currency }),
 
@@ -110,6 +113,12 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
 
       setAutoBettingMode: (enabled) => {
         set({ autoBettingMode: enabled });
+      },
+
+      setWinProbability: (probability) => {
+        // Ensure probability is between 0 and 1
+        const clampedProbability = Math.max(0, Math.min(1, probability));
+        set({ winProbability: clampedProbability });
       }
     }),
     {
@@ -121,7 +130,8 @@ export const useCoinFlipperStore = create<CoinFlipperStore>()(
         baseBetAmount: state.baseBetAmount,
         stopWin: state.stopWin,
         stopLoss: state.stopLoss,
-        startingBalance: state.startingBalance
+        startingBalance: state.startingBalance,
+        winProbability: state.winProbability
         // autoBettingMode is excluded from persistence
       })
     }
