@@ -44,3 +44,10 @@ export interface Statistics {
   Losses: number;
   currentProfit: number;
 }
+
+export type FlipCoinResult = Bet;
+
+export interface FlipCoinResponse {
+  success: boolean;
+  result: FlipCoinResult;
+}

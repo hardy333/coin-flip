@@ -51,7 +51,9 @@ export const useBetSimulation = () => {
 
       const mutationResult = result[0];
 
-      if (!mutationResult?.outcome) return;
+      if (!mutationResult?.success || !mutationResult?.result?.outcome) return;
+
+      const outcome = mutationResult.result.outcome;
 
       await queryClient.invalidateQueries({ queryKey: QUERY_KEYS.BALANCES });
 
@@ -59,9 +61,9 @@ export const useBetSimulation = () => {
       const updatedBalance = getBalanceByCurrency(updatedBalances, selectedCurrency);
 
       checkStopLimits(updatedBalance);
-      handleMartingaleStrategy(mutationResult.outcome, updatedBalance);
-      showToast(mutationResult.outcome);
-      setLastResult(mutationResult.outcome);
+      handleMartingaleStrategy(outcome, updatedBalance);
+      showToast(outcome);
+      setLastResult(outcome);
 
     } catch (error) {
       console.error('Bet failed:', error);

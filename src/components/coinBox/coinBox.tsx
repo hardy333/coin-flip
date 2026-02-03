@@ -20,6 +20,7 @@ export const CoinBox = ({ isFlipping, result, }: CoinFlipProps) => {
   const { selectedCurrency } = useCoinFlipperStore();
   const lottieRef = useRef<LottieRefCurrentProps>(null);
 
+
   useEffect(() => {
     if (lottieRef.current) {
       if (isFlipping) {

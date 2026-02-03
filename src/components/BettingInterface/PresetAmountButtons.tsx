@@ -23,7 +23,6 @@ export const PresetAmountButtons = ({
   return (
     <div className="grid grid-cols-3 gap-2">
       {presetAmounts.map((amount) => {
-        // Disable if amount exceeds balance, or if flipping/limits reached
         const exceedsBalance = amount > maxBalance;
         const isAmountDisabled = isDisabled || exceedsBalance;
         const isSelected = betAmount === amount;
@@ -37,7 +36,7 @@ export const PresetAmountButtons = ({
               data-tooltip-place="top"
               onClick={() => onAmountSelect(Math.min(amount, maxBalance))}
               disabled={isAmountDisabled}
-              className={`py-2 rounded-lg text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-not-allowed ${isSelected
+              className={`py-2 rounded-lg text-sm font-bold transition-all disabled:opacity-50 disabled:cursor-default ${isSelected
                 ? 'bg-amber-500/20 text-amber-500 border border-amber-500/30'
                 : 'bg-white/5 text-white/60 hover:bg-white/10 border border-transparent disabled:hover:bg-white/5'
                 }`}

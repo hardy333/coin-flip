@@ -3,6 +3,7 @@ import { useMediaQuery } from '@uidotdev/usehooks';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Statistics } from '@/components/statistics';
+import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
 
 export function StatisticsSection() {
   const isSmallDevice = useMediaQuery(`only screen and (max-width:700px)`);
@@ -10,9 +11,11 @@ export function StatisticsSection() {
 
   if (!isSmallDevice) {
     return (
-      <section className="mb-4">
-        <Statistics />
-      </section>
+      <ErrorBoundary>
+        <section className="mb-4">
+          <Statistics />
+        </section>
+      </ErrorBoundary>
     );
   }
 
@@ -39,7 +42,9 @@ export function StatisticsSection() {
             className="overflow-hidden"
           >
             <div className="pt-3">
-              <Statistics />
+              <ErrorBoundary>
+                <Statistics />
+              </ErrorBoundary>
             </div>
           </motion.div>
         )}

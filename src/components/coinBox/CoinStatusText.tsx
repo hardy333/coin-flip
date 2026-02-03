@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import { Sparkles, RefreshCw, Coins } from 'lucide-react';
+import { Sparkles, Coins } from 'lucide-react';
 
 interface CoinStatusTextProps {
     isFlipping: boolean;
@@ -25,7 +25,7 @@ export const CoinStatusText = ({ isFlipping, result }: CoinStatusTextProps) => {
             return {
                 key: 'try-again',
                 text: 'Try Again?',
-                icon: RefreshCw,
+                icon: null,
                 className: 'text-sm font-bold text-white/60',
                 initial: { opacity: 0, y: 10 },
                 delay: 0.3
@@ -55,7 +55,7 @@ export const CoinStatusText = ({ isFlipping, result }: CoinStatusTextProps) => {
                     transition={{ delay: config.delay, duration: 0.4 }}
                     className={`${config.className} flex items-center justify-center gap-2`}
                 >
-                    <Icon className="w-4 h-4" />
+                    {Icon && <Icon className="w-4 h-4" />}
                     {config.text}
                 </motion.p>
             </AnimatePresence>

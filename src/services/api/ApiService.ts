@@ -1,4 +1,4 @@
-import { Bet, Currency, UserBalances, FilterOption, Statistics } from '@/types';
+import { Bet, Currency, UserBalances, FilterOption, Statistics, FlipCoinResponse } from '@/types';
 import { StorageService } from '../storage/StorageService';
 import { HistoryController } from '../controllers/HistoryController';
 import { BalanceController } from '../controllers/BalanceController';
@@ -30,7 +30,7 @@ export class ApiService {
     async flipCoin(
         amount: number,
         currency: Currency
-    ): Promise<{ outcome: 'win' | 'loss'; bet: Bet }> {
+    ): Promise<FlipCoinResponse> {
         await delay(getRandomDelay(MOCK_API_DELAY_MIN, MOCK_API_DELAY_MAX));
         return this.gameController.flipCoin(amount, currency);
     }

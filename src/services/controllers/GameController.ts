@@ -1,4 +1,4 @@
-import { Bet, Currency } from '@/types';
+import { Bet, Currency, FlipCoinResponse } from '@/types';
 import { generateId } from '@/utils';
 import { HistoryController } from './HistoryController';
 import { BalanceController } from './BalanceController';
@@ -14,7 +14,7 @@ export class GameController {
     async flipCoin(
         amount: number,
         currency: Currency
-    ): Promise<{ outcome: 'win' | 'loss'; bet: Bet }> {
+    ): Promise<FlipCoinResponse> {
         const isWin = Math.random() >= 0.8;
         const outcome = isWin ? 'win' : 'loss';
 
@@ -36,6 +36,11 @@ export class GameController {
         await this.historyController.addBet(bet);
         await this.statisticsController.updateStatistics(bet);
 
-        return { outcome, bet };
+        return {
+            success: true,
+            result: {
+                ...bet
+            }
+        };
     }
 }

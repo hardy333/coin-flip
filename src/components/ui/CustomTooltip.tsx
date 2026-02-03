@@ -13,18 +13,11 @@ export const CustomTooltip = ({
     classNameArrow = '',
     ...props
 }: CustomTooltipProps) => {
-    const baseStyles = 'px-3 py-2 text-sm text-white rounded-[16px] whitespace-nowrap shadow-lg z-50 border';
-
     return (
         <Tooltip
             {...props}
-            className={`${baseStyles} ${className}`}
+            className={className}
             classNameArrow={classNameArrow}
-            style={{
-                backgroundColor: 'var(--bg-black)',
-                borderColor: 'var(--color-gold-primary)',
-                ...props.style
-            }}
         />
     );
 };

@@ -16,6 +16,7 @@ export const BetHistory = () => {
 
   const { history, isLoading, error } = useBetHistory({ filter, amount: debouncedAmount });
 
+
   return (
     <div className="bg-white/[0.02] border border-white/5 rounded-2xl p-4 h-full  flex flex-col overflow-hidden">
       {/* Header */}
