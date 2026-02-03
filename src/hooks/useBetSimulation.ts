@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
+import { useModalStore } from '@/store/modalStore';
 import { useBalances } from './useBalances';
 import { useMakeBet } from './useMakeBet';
 import { delay, getBalanceByCurrency } from '@/utils';
@@ -10,7 +11,6 @@ import { UserBalances } from '@/types';
 import { COIN_ANIMATION_DURATION_IN_MS } from '@/config/flipCoinConfig';
 
 const TOAST_DURATION_SHORT = 3000;
-const TOAST_DURATION_LONG = 5000;
 
 export const useBetSimulation = () => {
   const [lastResult, setLastResult] = useState<'win' | 'loss' | null>(null);
@@ -25,6 +25,8 @@ export const useBetSimulation = () => {
     stopLoss,
     startingBalance
   } = useCoinFlipperStore();
+
+  const { openStopWinModal, openStopLossModal } = useModalStore();
 
   const { data: balances = [] } = useBalances();
   const queryClient = useQueryClient();
@@ -103,20 +105,12 @@ export const useBetSimulation = () => {
   };
 
   const checkStopLimits = (currentBalance: number) => {
-    if (startingBalance === null) return;
-
-    const profit = currentBalance - startingBalance;
-    const loss = startingBalance - currentBalance;
-
-    if (stopWin !== null && profit >= stopWin) {
-      toast.success(`Stop Win limit reached! Profit: ${profit.toFixed(2)}`, {
-        className: 'bg-amber-600 text-white border-amber-500 backdrop-blur-md',
-        duration: TOAST_DURATION_LONG
-      });
-    } else if (stopLoss !== null && loss >= stopLoss) {
-      toast.error(`Stop Loss limit reached! Loss: ${loss.toFixed(2)}`, {
-        duration: TOAST_DURATION_LONG,
-      });
+    if (stopWin !== null && currentBalance >= stopWin) {
+      const profit = startingBalance !== null ? currentBalance - startingBalance : 0;
+      openStopWinModal(currentBalance, profit);
+    } else if (stopLoss !== null && currentBalance <= stopLoss) {
+      const loss = startingBalance !== null ? startingBalance - currentBalance : 0;
+      openStopLossModal(currentBalance, loss);
     }
   };
 

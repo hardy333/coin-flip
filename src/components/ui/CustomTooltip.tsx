@@ -16,6 +16,10 @@ export const CustomTooltip = ({
     return (
         <Tooltip
             {...props}
+            style={{
+                opacity: 1,
+                zIndex: 1000
+            }}
             className={className}
             classNameArrow={classNameArrow}
         />

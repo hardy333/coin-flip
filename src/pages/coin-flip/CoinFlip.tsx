@@ -11,6 +11,7 @@ import {
 } from './';
 import { useBetSimulation } from '@/hooks';
 import { useMediaQuery } from '@uidotdev/usehooks';
+import { StopLimitModal } from '@/components/StopLimitModal';
 
 export function CoinFlip() {
     const { placeBet, lastResult, isFlipping } = useBetSimulation();
@@ -57,6 +58,8 @@ export function CoinFlip() {
             </main>
 
             <Footer />
+
+            <StopLimitModal />
         </div>
     );
 }
