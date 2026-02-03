@@ -114,7 +114,7 @@ export const useBetSimulation = () => {
         duration: TOAST_DURATION_SHORT
       });
     } else if (result === 'loss') {
-      toast.warning('You lost. Better luck next time!', {
+      toast.info('You lost. Better luck next time!', {
         duration: TOAST_DURATION_SHORT
       });
     }

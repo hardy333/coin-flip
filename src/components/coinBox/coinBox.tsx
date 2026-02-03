@@ -33,11 +33,11 @@ export const CoinBox = ({ isFlipping, result, }: CoinFlipProps) => {
   }, [isFlipping]);
 
   return (
-    <div className="relative w-full flex flex-col items-center justify-center py-2">
+    <div className="relative w-full flex flex-col items-center justify-center py-2 pt-12 ">
       <GlowEffect isFlipping={isFlipping} result={result} />
 
       {/* Coin Container */}
-      <div className="relative w-44 h-52 md:w-60 md:h-80 overflow-visible pt-16 pb-4">
+      <div className="relative  w-44 h-[170px] md:w-60 md:h-[260px] overflow-visible pt-16 pb-4">
         <CoinAnimation
           isFlipping={isFlipping}
           lottieRef={lottieRef}
