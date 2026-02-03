@@ -3,7 +3,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { useCoinFlipperStore } from '@/store/coinFlipperStore';
 import { useModalStore } from '@/store/modalStore';
-import { useMakeBet } from './useMakeBet';
+import { useMakeBet } from '../api/useMakeBet';
 import { delay, getBalanceByCurrency } from '@/utils';
 import { QUERY_KEYS } from '@/constants/queryKeys';
 import { UserBalances } from '@/types';

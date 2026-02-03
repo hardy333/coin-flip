@@ -4,9 +4,10 @@ import { ChevronDown, ChevronUp } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Statistics } from '@/components/statistics';
 import { ErrorBoundary } from '@/components/ui/ErrorBoundary';
+import { SMALL_DEVICE_BREAKPOINT } from '@/config/flipCoinConfig';
 
 export function StatisticsSection() {
-  const isSmallDevice = useMediaQuery(`only screen and (max-width:700px)`);
+  const isSmallDevice = useMediaQuery(`only screen and (max-width:${SMALL_DEVICE_BREAKPOINT}px)`);
   const [isCollapsed, setIsCollapsed] = useState(true);
 
   if (!isSmallDevice) {

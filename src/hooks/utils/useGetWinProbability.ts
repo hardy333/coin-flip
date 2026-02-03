@@ -14,7 +14,6 @@ export const useGetWinProbability = () => {
         if (winProbabilityParam !== null) {
             const probability = Number(winProbabilityParam);
             if (!isNaN(probability) && probability >= 0 && probability <= 1) {
-                console.log('probability', probability);
                 setWinProbability(probability);
             }
         }

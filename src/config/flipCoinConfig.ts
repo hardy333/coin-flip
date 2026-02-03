@@ -20,7 +20,7 @@ export const FLIP_COIN_BUTTON_TEXT = {
     FLIPPING: 'FLIPPING...'
 } as const;
 
-export const COIN_ANIMATION_DURATION_IN_MS = 600;
+export const COIN_ANIMATION_DURATION_IN_MS = 780; // optimal: 780
 
 export const DEFAULT_BET_HISTORY_LIST_ITEMS_COUNT = 20;
 
@@ -28,4 +28,7 @@ export const STORAGE_PREFIX = 'coin-flip';
 
 export const AUTO_BET_DELAY_IN_MS = 1000;
 
-export const DEFAULT_WIN_PROBABILITY = 0.5; 
+export const DEFAULT_WIN_PROBABILITY = 0.5;
+
+// Responsive breakpoints
+export const SMALL_DEVICE_BREAKPOINT = 700; // in pixels 

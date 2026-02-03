@@ -8,8 +8,6 @@ interface ResultBadgeProps {
 export function ResultBadge({ result, isFlipping }: ResultBadgeProps) {
   if (!result || isFlipping) return null;
 
-  console.log('result', result);
-
   return (
     <AnimatePresence>
       {!isFlipping && result && (

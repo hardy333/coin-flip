@@ -12,10 +12,11 @@ import {
 import { useBetSimulation, useGetWinProbability } from '@/hooks';
 import { useMediaQuery } from '@uidotdev/usehooks';
 import { StopLimitModal } from '@/components/StopLimitModal';
+import { SMALL_DEVICE_BREAKPOINT } from '@/config/flipCoinConfig';
 
 export function CoinFlip() {
     const { placeBet, lastResult, isFlipping } = useBetSimulation();
-    const isSmallDevice = useMediaQuery(`only screen and (max-width:700px)`);
+    const isSmallDevice = useMediaQuery(`only screen and (max-width:${SMALL_DEVICE_BREAKPOINT}px)`);
 
     useGetWinProbability();
 

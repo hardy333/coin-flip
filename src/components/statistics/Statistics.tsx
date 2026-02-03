@@ -1,4 +1,4 @@
-import { useGetStatistics } from '@/hooks/useGetStatistics';
+import { useGetStatistics } from '@/hooks';
 import {
   AlertCircle,
   RefreshCw

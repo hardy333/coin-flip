@@ -19,7 +19,6 @@ export class GameController {
         const winProbability = useCoinFlipperStore.getState().winProbability;
         const isWin = Math.random() >= (1 - winProbability);
         const outcome = isWin ? 'win' : 'loss';
-        console.log('winProbability', winProbability);
 
         const balanceAfter = await this.balanceController.updateBalance(
             currency,
